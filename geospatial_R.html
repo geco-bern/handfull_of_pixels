@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Handful of Pixels - 3&nbsp; Geospatial data in R</title>
+<title>3&nbsp; Geospatial data in R – A Handful of Pixels</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -91,19 +92,25 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-1406984dfdd12854340727e035531d56.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-8bf84f831a08bd4222540306f79be283.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -112,12 +119,14 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
-<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
 <script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
@@ -125,16 +134,43 @@ div.csl-indent {
 <script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
-<script src="site_libs/leaflet-binding-2.1.2.9000/leaflet.js"></script>
-<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
-<script src="site_libs/leaflet-providers-plugin-2.1.2.9000/leaflet-providers-plugin.js"></script>
+<script src="site_libs/leaflet-binding-2.2.3/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="twitter:title" content="A Handful of Pixels - 3&nbsp; Geospatial data in R">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="3&nbsp; Geospatial data in R – A Handful of Pixels">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/c/c2/Raster_vector_tikz.svg">
+<meta name="twitter:image" content="geospatial_R_files/figure-html/fig-demo-nc-1.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -142,9 +178,9 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     <img src="./images/logo.png" alt="" class="navbar-logo">
     </a>
@@ -153,30 +189,31 @@ div.csl-indent {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools tools-wide">
-    <a href="https://github.com/geco-bern/handfull_of_pixels/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/geco-bern/handfull_of_pixels/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
           <li>
             <a class="dropdown-item quarto-navbar-tools-item" href="https://twitter.com/intent/tweet?url=|url|">
-              <i class="bi bi-bi-twitter pe-1"></i>
+              <i class="bi bi-twitter pe-1"></i>
             Twitter
             </a>
           </li>
           <li>
             <a class="dropdown-item quarto-navbar-tools-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
-              <i class="bi bi-bi-facebook pe-1"></i>
+              <i class="bi bi-facebook pe-1"></i>
             Facebook
             </a>
           </li>
@@ -184,32 +221,23 @@ div.csl-indent {
     </div>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./geospatial_R.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geospatial data in R</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./geospatial_R.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geospatial data in R</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -222,7 +250,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -249,9 +277,9 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Worked Examples</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -296,9 +324,9 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -326,7 +354,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -361,16 +389,22 @@ div.csl-indent {
   </div>
   
 
+
 </header>
 
-<p>Geospatial data procesing in <code>R</code> follows the standard raster vs.&nbsp;vector data model dichotomy as seen throughout most geographic information systems (GIS, <a href="#fig-datatypes">Figure&nbsp;<span>3.1</span></a>). Here, raster data represent data on a regular grid, while vector data describe geographic features using points, lines and polygons (shapes). The main difference between both types is their sensitivity to resolution, which is predetermined in the case of raster data, while undetermined using a vector topology.</p>
+
+<p>Geospatial data procesing in <code>R</code> follows the standard raster vs.&nbsp;vector data model dichotomy as seen throughout most geographic information systems (GIS, <a href="#fig-datatypes" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>). Here, raster data represent data on a regular grid, while vector data describe geographic features using points, lines and polygons (shapes). The main difference between both types is their sensitivity to resolution, which is predetermined in the case of raster data, while undetermined using a vector topology.</p>
 <p>This difference in data models used also determines the advantages and disadvantages of both models. Vector topology is resolution-independent and data efficient in storage. However, the handling of mathematical (topological) operations can be computationally expensive. In contrast, raster data has a fixed resolution and enables computationally efficient data transformations.</p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
-<div id="fig-datatypes" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Raster_vector_tikz.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.1: Image by <a href="https://commons.wikimedia.org/wiki/File:Raster_vector_tikz.svg">Wikimedia Commons</a></figcaption>
+<div id="fig-datatypes" class="quarto-float quarto-figure quarto-figure-left anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-datatypes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Raster_vector_tikz.svg" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datatypes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Image by <a href="https://commons.wikimedia.org/wiki/File:Raster_vector_tikz.svg">Wikimedia Commons</a>
+</figcaption>
 </figure>
 </div>
 </div>
@@ -380,7 +414,7 @@ div.csl-indent {
 <h2 data-number="3.1" class="anchored" data-anchor-id="the-r-geospatial-ecosystem"><span class="header-section-number">3.1</span> The R geospatial ecosystem</h2>
 <p>Spatio-temporal data often comes in the form of arrays, with space and time being array dimensions. Examples include socio-economic or demographic data, series of satellite images with multiple spectral bands, spatial simulations, and climate or weather model output.</p>
 <p>A number of libraries (packages) make the use of this spatio-temporal data, and geo-computational work in R easy. However, the ecosystem has grown rapidly and is therefore continuously shifting. Unlike other processing environments, this makes it at times hard to keep track of what or when to use a particular package.</p>
-<p>Here, a quick overview of the basic functionality and uses cases of different geospatial R packages is provided, and a brief overview of some basic geospatial operations using <code>terra</code> and <code>sf</code> libraries is given (see <a href="#sec-terra"><span>Section&nbsp;3.1.1</span></a> and <a href="#sec-sf"><span>Section&nbsp;3.1.2</span></a>). For a more deeper dive into these packages, see <span class="citation" data-cites="lovelace_geocomputation_2019">Lovelace, Nowosad, and Muenchow (<a href="references.html#ref-lovelace_geocomputation_2019" role="doc-biblioref">2019</a>)</span> .</p>
+<p>Here, a quick overview of the basic functionality and uses cases of different geospatial R packages is provided, and a brief overview of some basic geospatial operations using <code>terra</code> and <code>sf</code> libraries is given (see <a href="#sec-terra" class="quarto-xref"><span>Section 3.1.1</span></a> and <a href="#sec-sf" class="quarto-xref"><span>Section 3.1.2</span></a>). For a more deeper dive into these packages, see <span class="citation" data-cites="lovelace_geocomputation_2019">Lovelace, Nowosad, and Muenchow (<a href="references.html#ref-lovelace_geocomputation_2019" role="doc-biblioref">2019</a>)</span> .</p>
 <section id="sec-terra" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="sec-terra"><span class="header-section-number">3.1.1</span> The terra package</h3>
 <p>The <code>terra</code> package is the successor of the older <code>raster</code> package and provides a simpler interface. This package deals with both geographic raster and vector data, with the explicit requirement that raster data represent spatially continuous processes on a fixed (rectangular) grid.</p>
@@ -411,10 +445,10 @@ Note
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 41, 71, 1  (nrow, ncol, nlyr)
+size        : 41, 71, 1  (nrow, ncol, nlyr)
 resolution  : 0.1, 0.1  (x, y)
 extent      : 4.95, 12.05, 43.95, 48.05  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 
+coord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) 
 source      : demo_data.nc 
 varname     : t2m (2 metre temperature) 
 name        : t2m 
@@ -422,9 +456,9 @@ unit        :   K
 time        : 2022-01-01 12:00:00 UTC </code></pre>
 </div>
 </div>
-<p>Or you can visualize the data by plotting the data (e.g., using <code>plot()</code>). Note that <a href="#fig-demo-nc">Figure&nbsp;<span>3.2</span></a> is generated using the <code>ggplot2</code> library and is a bit more pleasing to the eye than the default <code>plot()</code> routine. You can also plot an interactive map using the <code>terra</code> function <code>plet()</code>, allowing you to scroll and zoom, while including various background tiles (such as satellite imagery, or topographic data).</p>
+<p>Or you can visualize the data by plotting the data (e.g., using <code>plot()</code>). Note that <a href="#fig-demo-nc" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> is generated using the <code>ggplot2</code> library and is a bit more pleasing to the eye than the default <code>plot()</code> routine. You can also plot an interactive map using the <code>terra</code> function <code>plet()</code>, allowing you to scroll and zoom, while including various background tiles (such as satellite imagery, or topographic data).</p>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> r) <span class="sc">+</span></span>
@@ -438,22 +472,26 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-demo-nc" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-demo-nc-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.2: Temperature in Kelvin (K)</figcaption>
+<div id="fig-demo-nc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-demo-nc-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Temperature in Kelvin (K)
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set the colour scale manually</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorNumeric</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"magma"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"magma"</span>, </span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">values</span>(r),</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.color =</span> <span class="st">"transparent"</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )</span>
@@ -466,26 +504,31 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldTopoMap, <span class="at">group =</span> <span class="st">"World Topo"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addRasterImage</span>(</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    r,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">colors =</span> pal,</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">opacity =</span> <span class="fl">0.8</span>,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">"raster"</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLayersControl</span>(</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseGroups =</span> <span class="fu">c</span>(<span class="st">"World Imagery"</span>,<span class="st">"World Topo"</span>),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"topleft"</span>,</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">layersControlOptions</span>(<span class="at">collapsed =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlayGroups =</span> <span class="fu">c</span>(<span class="st">"raster"</span>)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">pal =</span> pal,</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">values</span>(r),</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"2 m temp. (K)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">colors =</span> pal, </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">project =</span> <span class="cn">FALSE</span>, <span class="co"># https://github.com/rstudio/leaflet/issues/224#issuecomment-2691958076</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">opacity =</span> <span class="fl">0.8</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">"raster"</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLayersControl</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseGroups =</span> <span class="fu">c</span>(<span class="st">"World Imagery"</span>,<span class="st">"World Topo"</span>),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"topleft"</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">layersControlOptions</span>(<span class="at">collapsed =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlayGroups =</span> <span class="fu">c</span>(<span class="st">"raster"</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">pal =</span> pal,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">values</span>(r),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"2 m temp. (K)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-demo-dyn" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-d9fc1333aa79c4e48939" style="width:100%;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-d9fc1333aa79c4e48939">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"World Imagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"World Topo",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[48.05,4.95],[43.95,12.05]],0.8,null,null,"raster"]},{"method":"addLayersControl","args":[["World Imagery","World Topo"],"raster",{"collapsed":false,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#000004 , #21114E 13.710799190693%, #792282 35.2923200134884%, #D2426F 56.8738408362839%, #FD9869 78.4553616590794%, #FCFDBF "],"labels":["270","275","280","285"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"numeric","title":"2 m temp. (K)","extra":{"p_1":0.13710799190693,"p_n":0.784553616590794},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[43.95,48.05],"lng":[4.95,12.05]}},"evals":[],"jsHooks":[]}</script>
-<figcaption class="figure-caption">Figure&nbsp;3.3: Dynamic output of the generated map</figcaption>
+<div id="fig-demo-dyn" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-dyn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-d9fc1333aa79c4e48939" style="width:100%;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-d9fc1333aa79c4e48939">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"World Imagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,"World Topo",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[48.04999999999998,4.95],[43.95,12.05]],null,"raster",{"tileSize":256,"zIndex":1,"minZoom":0,"opacity":0.8}]},{"method":"addLayersControl","args":[["World Imagery","World Topo"],"raster",{"collapsed":false,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#000004 , #21114E 13.710799190693%, #792282 35.2923200134884%, #D2426F 56.8738408362839%, #FD9869 78.4553616590794%, #FCFDBF "],"labels":["270","275","280","285"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"numeric","title":"2 m temp. (K)","extra":{"p_1":0.1371079919069297,"p_n":0.7845536165907941},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[43.95,48.04999999999998],"lng":[4.95,12.05]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-dyn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Dynamic output of the generated map
+</figcaption>
 </figure>
 </div>
 </div>
@@ -522,7 +565,7 @@ Note
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>r_c <span class="ot">&lt;-</span> r <span class="sc">-</span> <span class="fl">273.15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> r_c) <span class="sc">+</span></span>
@@ -536,10 +579,14 @@ Note
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-demo-nc-C" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-demo-nc-C-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.4: Temperature in Celsius (C) as calculated from the original values in Kelvin</figcaption>
+<div id="fig-demo-nc-C" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-nc-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-demo-nc-C-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-nc-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: Temperature in Celsius (C) as calculated from the original values in Kelvin
+</figcaption>
 </figure>
 </div>
 </div>
@@ -551,7 +598,7 @@ Note
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> r_c <span class="sc">&gt;</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> m) <span class="sc">+</span></span>
@@ -564,10 +611,14 @@ Note
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-demo-mask" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-demo-mask-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.5: Mask, defining positions where temperatures are larger than 5C</figcaption>
+<div id="fig-demo-mask" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-mask-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-demo-mask-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-mask-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: Mask, defining positions where temperatures are larger than 5C
+</figcaption>
 </figure>
 </div>
 </div>
@@ -579,7 +630,7 @@ Note
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>r_m <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(r_c, m, <span class="at">maskvalue =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> r_m) <span class="sc">+</span></span>
@@ -593,10 +644,14 @@ Note
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-demo-mask-C" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-demo-mask-C-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.6: Temperature in Celsius (C), with values lower than 5 degrees C masked.</figcaption>
+<div id="fig-demo-mask-C" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-mask-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-demo-mask-C-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-mask-C-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.6: Temperature in Celsius (C), with values lower than 5 degrees C masked.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -616,11 +671,13 @@ Note
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(multi_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 41, 71, 2  (nrow, ncol, nlyr)
+size        : 41, 71, 2  (nrow, ncol, nlyr)
 resolution  : 0.1, 0.1  (x, y)
 extent      : 4.95, 12.05, 43.95, 48.05  (xmin, xmax, ymin, ymax)
-coord. ref. : lon/lat WGS 84 
+coord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) 
 source(s)   : memory
+varnames    : t2m (2 metre temperature) 
+              t2m (2 metre temperature) 
 names       :       t2m,       t2m 
 min values  : -6.326514,  5.003458 
 max values  : 16.841455, 16.841455 
@@ -635,7 +692,7 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>multi_layer_mean <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">app</span>(multi_layer, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> multi_layer_mean) <span class="sc">+</span></span>
@@ -649,10 +706,14 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-demo-layer-mean" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-demo-layer-mean-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.7: Temperature in Celsius (C) across layers</figcaption>
+<div id="fig-demo-layer-mean" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-layer-mean-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-demo-layer-mean-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-layer-mean-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.7: Temperature in Celsius (C) across layers
+</figcaption>
 </figure>
 </div>
 </div>
@@ -740,7 +801,7 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>r_c_utm <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(r_c, <span class="fu">crs</span>(<span class="st">"EPSG:23032"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> r_c_utm) <span class="sc">+</span></span>
@@ -754,10 +815,14 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-reproject" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-reproject-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.8: Temperature in Celsius (C) across layers</figcaption>
+<div id="fig-reproject" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reproject-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-reproject-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reproject-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.8: Temperature in Celsius (C) across layers
+</figcaption>
 </figure>
 </div>
 </div>
@@ -774,7 +839,7 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>r_resampled <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">resample</span>(r_c, r_c_2x, <span class="at">method =</span> <span class="st">"min"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> r_resampled) <span class="sc">+</span></span>
@@ -788,10 +853,14 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-resampled" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-resampled-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.9: Temperature in Celsius (C) across layers</figcaption>
+<div id="fig-resampled" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resampled-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-resampled-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resampled-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.9: Temperature in Celsius (C) across layers
+</figcaption>
 </figure>
 </div>
 </div>
@@ -812,7 +881,7 @@ time        : 2022-01-01 12:00:00 UTC </code></pre>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(<span class="fu">system.file</span>(<span class="st">"shape/nc.shp"</span>, <span class="at">package =</span> <span class="st">"sf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `nc' from data source 
-  `/home/runner/.cache/R/renv/cache/v5/R-4.3/x86_64-pc-linux-gnu/sf/1.0-12/5b41b4f0bd22b38661d82205a87deb4b/sf/shape/nc.shp' 
+  `/Users/faber/Library/Caches/org.R-project.R/R/renv/cache/v5/R-4.5/aarch64-apple-darwin20/sf/1.0-21/14a8dae2a678fa953907893a9df561c0/sf/shape/nc.shp' 
   using driver `ESRI Shapefile'
 Simple feature collection with 100 features and 14 fields
 Geometry type: MULTIPOLYGON
@@ -857,10 +926,14 @@ First 10 features:
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-shapefile" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-shapefile-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.10: Various layers of the shapefile</figcaption>
+<div id="fig-shapefile" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shapefile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-shapefile-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shapefile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.10: Various layers of the shapefile
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1005,7 +1078,7 @@ Projected CRS: CH1903+ / LV95
 </section>
 <section id="basic-vector-operations" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="basic-vector-operations">Basic vector operations</h4>
-<p>Given the tidy data approach of <code>sf</code> data we can use the same logic to filter data. For example, if we only want to retain Camden county from the data set we can use the <code>filter()</code> function as shown in <a href="basic_R.html#sec-tidy-data"><span>Section&nbsp;1.4</span></a>.</p>
+<p>Given the tidy data approach of <code>sf</code> data we can use the same logic to filter data. For example, if we only want to retain Camden county from the data set we can use the <code>filter()</code> function as shown in <a href="basic_R.html#sec-tidy-data" class="quarto-xref"><span>Section 1.4</span></a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset data using the</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># tidy filter approach</span></span>
@@ -1016,10 +1089,14 @@ Projected CRS: CH1903+ / LV95
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-camden" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-camden-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.11: Camden county, as filtered from the larger dataset</figcaption>
+<div id="fig-camden" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-camden-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-camden-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-camden-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.11: Camden county, as filtered from the larger dataset
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1048,7 +1125,7 @@ Projected CRS: CH1903+ / LV95
 <span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
@@ -1063,10 +1140,14 @@ Projected CRS: CH1903+ / LV95
 <span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-intersection-nc" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-intersection-nc-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.12: A plot with all intetersecting vectors polygons, with the number of overlaps as a coloured index</figcaption>
+<div id="fig-intersection-nc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-intersection-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-intersection-nc-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intersection-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.12: A plot with all intetersecting vectors polygons, with the number of overlaps as a coloured index
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1076,7 +1157,7 @@ Projected CRS: CH1903+ / LV95
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">st_union</span>(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
@@ -1085,10 +1166,14 @@ Projected CRS: CH1903+ / LV95
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-union-nc" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="geospatial_R_files/figure-html/fig-union-nc-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.13: A plot with all intetersecting vectors polygons aggregated by st_union()</figcaption>
+<div id="fig-union-nc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-union-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="geospatial_R_files/figure-html/fig-union-nc-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-union-nc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.13: A plot with all intetersecting vectors polygons aggregated by st_union()
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1110,21 +1195,29 @@ Projected CRS: CH1903+ / LV95
 <p>The <a href="https://r-spatial.github.io/stars/"><code>stars</code> package</a> is another geospatial <code>R</code> package you should take note of. In contrast to <code>terra</code>, it is specifically tailored to dealing with data cubes. These are arrays of data on which one axis is time.</p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
-<div id="fig-datacube" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="https://raw.githubusercontent.com/r-spatial/stars/master/images/cube1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.14: Data cube representation by <a href="https://r-spatial.github.io/stars/">Edzer Pebesma</a></figcaption>
+<div id="fig-datacube" class="quarto-float quarto-figure quarto-figure-left anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-datacube-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://raw.githubusercontent.com/r-spatial/stars/master/images/cube1.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datacube-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.14: Data cube representation by <a href="https://r-spatial.github.io/stars/">Edzer Pebesma</a>
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Unlike for the <code>terra</code> package, grids in the <code>stars</code> package don’t have to be regular and rectangular, but can be of a different sort, such as curvi-linear data (<a href="#fig-datagrid">Figure&nbsp;<span>3.15</span></a>).</p>
+<p>Unlike for the <code>terra</code> package, grids in the <code>stars</code> package don’t have to be regular and rectangular, but can be of a different sort, such as curvi-linear data (<a href="#fig-datagrid" class="quarto-xref">Figure&nbsp;<span>3.15</span></a>).</p>
 <div class="cell" data-layout-align="left">
 <div class="cell-output-display">
-<div id="fig-datagrid" class="quarto-figure quarto-figure-left anchored">
-<figure class="figure">
-<p><img src="https://r-spatial.github.io/stars/reference/figures/README-plot2-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.15: Various non-regular grid representations of raster data, handled by the {stars} package. Image by <a href="https://r-spatial.github.io/stars/">Edzer Pebesma</a></figcaption>
+<div id="fig-datagrid" class="quarto-float quarto-figure quarto-figure-left anchored" data-fig-align="left">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-datagrid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://r-spatial.github.io/stars/reference/figures/README-plot2-1.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datagrid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.15: Various non-regular grid representations of raster data, handled by the {stars} package. Image by <a href="https://r-spatial.github.io/stars/">Edzer Pebesma</a>
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1137,7 +1230,7 @@ Projected CRS: CH1903+ / LV95
 <p>Note that R (or Python) is infinitely flexible, and many packages exist to address niche problems within the context of geospatial data manipulation. While they most often tap into the the GDAL framework, these packages can be very powerful for certain applications which are outside the scope of this basic introduction. For more in-depth discussion, the reader is referred to the list of resources in the references at the end of this book.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-lovelace_geocomputation_2019" class="csl-entry" role="listitem">
 Lovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2019. <em>Geocomputation in <span>R</span></em>. Chapman &amp; Hall.
 </div>
@@ -1187,6 +1280,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -1255,13 +1375,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -1296,18 +1418,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1339,11 +1450,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1353,8 +1501,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1366,7 +1523,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1410,6 +1689,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1435,6 +1715,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1496,17 +1802,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./gathering_data.html" class="pagination-link">
+      <a href="./gathering_data.html" class="pagination-link" aria-label="Accessing data">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Accessing data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./phenology_trends.html" class="pagination-link">
+      <a href="./phenology_trends.html" class="pagination-link" aria-label="Phenology trends">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Phenology trends</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
