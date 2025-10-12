@@ -13,19 +13,19 @@ library(GenSA)
 # for fast processing
 
 # read DAYMET gridded data
-ma_nh_temp <- terra::rast(here::here("data/daymet_mean_temperature.tif")) |>
+ma_nh_temp <- terra::rast(here::here("../data/daymet_mean_temperature.tif")) |>
   terra::trim()
 
 # read harvard forest GCC time series and matching
 # DAYMET data
 harvard_phenocam_data <- readr::read_csv(
-  here::here("data/harvard_DB_1000_3day.csv"),
+  here::here("../data/harvard_DB_1000_3day.csv"),
   comment = "#"
   )
 
 # read derived phenology metrics
 harvard_phenology <- readr::read_csv(
-  here::here("data/harvard_DB_1000_3day_transition_dates.csv"),
+  here::here("../data/harvard_DB_1000_3day_transition_dates.csv"),
   comment = "#") |>
   dplyr::filter(
     direction == "rising",

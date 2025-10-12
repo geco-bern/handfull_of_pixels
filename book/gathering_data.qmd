@@ -90,7 +90,7 @@ Using this information we can now formulate a full query for use with the API. H
 
 ```{r include=FALSE}
 # load MODIS subset demo data for quick rendering
-subset <- readRDS(here::here("data/modis_demo_data.rds"))
+subset <- readRDS(here::here("../data/modis_demo_data.rds"))
 ```
 
 ```{r eval = FALSE}

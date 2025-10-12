@@ -12,12 +12,12 @@ library(MODISTools)
 set.seed(0)
 
 # read land cover map
-lc_r <- readRDS(here::here("data/land-cover_2012.rds")) |>
+lc_r <- readRDS(here::here("../data/land-cover_2012.rds")) |>
   mt_to_terra(reproject = TRUE)
 
-snow <- readRDS(here::here("data/snow_lai_profile.rds"))
-dbf <- readRDS(here::here("data/dbf_lai_profile.rds"))
-ml_df <- readRDS(here::here("data/training_data.rds"))
+snow <- readRDS(here::here("../data/snow_lai_profile.rds"))
+dbf <- readRDS(here::here("../data/dbf_lai_profile.rds"))
+ml_df <- readRDS(here::here("../data/training_data.rds"))
 ```
 
 In previous sections I have explained how the timing in the development of vegetation canopy density (i.e. using the leaf area index, or LAI) can be detected, and how it varies depending on the geography of the region. I introduced how this ties to the exchange of carbon and water between the biosphere and the atmosphere (@sec-phenology-trends). A small, first principles, example was provided on how to write your own phenology detection algorithm (@sec-algorithms) and how to use such data to model phenology, based upon environmental drivers (@sec-phenology-modelling). In this section I will cover Land-Use and Land-Cover classification and explain how all these concepts relate.
@@ -102,7 +102,7 @@ In this example I use an unsupervised machine learning approach, called k-means 
 
 ```{r include = FALSE}
 # load buffered data, not shown in render
-r <- terra::rast(here::here("data/LAI.tiff"))
+r <- terra::rast(here::here("../data/LAI.tiff"))
 ```
 
 Here, we can use the `lai_2012` dataset we previously downloaded, but we'll use the raster representation as a starting point (as most geospatial data will come in multi-layer raster formats).
@@ -504,7 +504,7 @@ xgb_results <- tune::tune_grid(
 When the model is tuned across folds the results show varied model performance. In order to select the best model, according to a set metric, you can use the `select_best()` function (for a specific metric). This will extract the model hyperparameters for model training.
 
 ```{r include = FALSE}
-xgb_results <- readRDS(here::here("data/xgboost_grid_results.rds"))
+xgb_results <- readRDS(here::here("../data/xgboost_grid_results.rds"))
 ```
 
 ```{r}
@@ -560,8 +560,8 @@ In (@tbl-confusion-matrix) a three class confusion matrix is shown with the mode
 Simple confusion matrices can be calculated using R using the `table` function comparing the true reference labels with the predicted values for our model.
 
 ```{r include = FALSE}
-# saveRDS(bundle::bundle(xgb_best_model), here::here("data/xgboost_model_bundled.rds"), compress = "xz")
-xgb_best_model <- bundle::unbundle(readRDS(here::here("data/xgboost_model_bundled.rds")))
+# saveRDS(bundle::bundle(xgb_best_model), here::here("../data/xgboost_model_bundled.rds"), compress = "xz")
+xgb_best_model <- bundle::unbundle(readRDS(here::here("../data/xgboost_model_bundled.rds")))
 
 library(stringr)
 
@@ -573,7 +573,7 @@ ON_GIT <- ifelse(
 )
 
 # read test data (without labels)
-test <- readRDS(here::here("data/test_data.rds"))
+test <- readRDS(here::here("../data/test_data.rds"))
 
 # if on git read the test labels from
 # environmental variable (these are the same
@@ -705,10 +705,10 @@ lulc_probabilities <- terra::predict(
 
 ```{r include = FALSE}
 # return probabilities
-lulc_probabilities <- rast(here::here("data/xgboost_spatial_probabilities.tif"))
+lulc_probabilities <- rast(here::here("../data/xgboost_spatial_probabilities.tif"))
 lulc_map <- terra::app(lulc_probabilities, which.max)
 
-modis_lulc <- readRDS(here::here("data/land-cover_2012.rds")) |>
+modis_lulc <- readRDS(here::here("../data/land-cover_2012.rds")) |>
   dplyr::mutate_at(vars(matches("value")),
             function(x) case_when(
               x <= 5  ~ 1,

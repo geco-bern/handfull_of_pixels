@@ -33,9 +33,9 @@ library(hexbin)
 
 # preloading data
 # for fast processing
-phenology <- readRDS(here::here("data/phenology_2012.rds"))
-dem <- terra::rast(here::here("data-raw/srtm_38_03.tif"))
-land_cover <- readRDS(here::here("data/land-cover_2012.rds"))
+phenology <- readRDS(here::here("../data/phenology_2012.rds"))
+dem <- terra::rast(here::here("../data-raw/srtm_38_03.tif"))
+land_cover <- readRDS(here::here("../data/land-cover_2012.rds"))
 ```
 
 ## Getting the required data
