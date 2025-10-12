@@ -493,42 +493,115 @@ More advanced models exist. Such models may include not only temperature but als
 
 ## Spatial scaling
 
-With a basic model parameterized you can explore if and how the relationship between observed and predicted values scale across a larger landscape. I will use DAYMET raster data to scale the results spatially (relying on the same driver data as used during parameterization). First I download both minimum and maximum temperature data and average them to a mean daily value (as previously used), using the `daymetr` R package [@hufkens_integrated_2018].
+With a basic model parameterized you can explore if and how the relationship between observed and predicted values scale across a larger landscape. As example we will use a region around Boston in the eastern United States, defined by the coordinates -72 to -70 East, and 42 to 44 North.
+I will use DAYMET raster data to scale the results spatially (relying on the same driver data as used during parameterization). First I download both minimum and maximum temperature data and average them to a mean daily value (as previously used), using the `appeears` R package [@hufkens2023].
+
+To do so, first create a NASA Earth Data user and setup the appeears package with that user (see more detailed informatio in the [appeears package documentation](https://bluegreen-labs.github.io/appeears/articles/appeears_vignette.html).
 
 ```{r eval = FALSE}
-library(daymetr)
+library(keyring)
+library(appeears)
+library(sf)
 
-# Download daily data
-daymetr::download_daymet_tiles(
-  tiles = 11935,
-  start = 2012,
-  end = 2012,
-  param = c("tmin","tmax"),
-  path = paste0(here::here(), "/data-raw/"),
-  silent = TRUE
-  )
+rs_set_key()
+# if the package has no access to your system password manager, potentially use options(keyring_backend="file") before attempting to set a key
 
-# calculate the daily mean values
-r <- daymetr::daymet_grid_tmean(
-  path = paste0(here::here(), "/data-raw/"),
-  product = 11935,
-  year = 2012,
-  internal = TRUE
+# To see whether the setup has worked, you can try to get the metadata of the product DAYMET v4:
+rs_layers("DAYMET.004")
+```
+
+Then I proceed to download the data. Note that this might take a while since the request is first queued and then prepared before it is available for download. The progress can be followed under: https://appeears.earthdatacloud.nasa.gov/explore.
+
+```{r eval = FALSE}
+# Define the bounding box coordinates
+xmin <- -72; xmax <- -70
+ymin <- 42; ymax <- 44
+coords <- matrix(c(
+  xmin, ymin,
+  xmax, ymin,
+  xmax, ymax,
+  xmin, ymax,
+  xmin, ymin  # Closing the polygon by repeating first point
+), ncol = 2, byrow = TRUE)
+
+# Create a simple feature geometry collection with CRS
+roi <- st_sf(geometry = st_sfc(st_polygon(list(coords)), 
+                               crs = 4326)  # WGS 84)
+)
+# build the area based request/task
+df <- data.frame(
+  task = "DAYMET.004_2012",
+  subtask = "subtask",
+  latitude = NA,
+  longitude = NA,
+  start = "2012-01-01",
+  end = "2012-12-31",
+  product = "DAYMET.004",
+  layer = c("tmax", "tmin")
+)
+task <- rs_build_task(
+  df = df,
+  roi = roi,
+  format = "netcdf4"
+)
+
+# request the task to be executed
+rs_request(
+  request = task,
+  user = "fabern",
+  transfer = TRUE,
+  path = here::here("../data"),
+  verbose = TRUE
 )
 ```
 
-For convenience I reproject the data to geographic coordinates and limit the data to the first 180 days (layers) of the dataset to reduce the memory footprint of the calculations.
+```{r eval = TRUE}
+# Load the downloaded daily data:
+r1 <- terra::rast(
+  here::here("../data",
+             "DAYMET.004_2012", 
+             "DAYMET.004_1km_aid0001.nc"), 
+  guessCRS=FALSE)
+# Assign the correct CRS, e.g. WGS84 (EPSG:4326)
+terra::crs(r1) <- "epsg:4326"
 
-```{r eval = FALSE}
-# reproject to lat lon
-r <- terra::project(
-  r,
-  "+init=epsg:4326"
-)
+# The variables can be accessed with:
+# r1["tmax"]
+# r1["tmin"]
+```
 
+In case there are issues with creating a user account or the download you can use:
+```{r eval = FALSE, warning = FALSE}
+r1 <- terra::rast("https://github.com/geco-bern/handfull_of_pixels/data/DAYMET.004_2012/DAYMET.004_1km_aid0001.nc?raw=TRUE")
+# Assign the correct CRS, e.g. WGS84 (EPSG:4326)
+terra::crs(r1) <- "epsg:4326"
+```
+
+```{r, output = FALSE, warning = FALSE}
+# Calculate the daily mean values based on 'tmin' and 'tmax'
+mean_layer <- terra::mean(r1["tmax"], 
+                          r1["tmin"])
+varnames(mean_layer) <- "tmean"                             # fix the variable naming
+names(mean_layer) <- gsub("tmax","tmean",names(mean_layer)) # fix the variable naming
+```
+
+This results in a raster containing a single variable 'tmean' for each day:
+```{r}
+#| code-fold: true
+#| label: fig-tmean-daily
+#| fig-cap: "Daily mean temperature for the first 16 days of 2012 for the greater Boston area."
+#| fig-align: "center"
+#| out-width: "100%"
+terra::plot(mean_layer)
+```
+
+
+For convenience I limit the data to the first 180 days (layers) of the dataset to reduce the memory footprint of the calculations.
+
+```{r}
 # subset to first 180 days
 ma_nh_temp <- terra::subset(
-  r,
+  mean_layer,
   1:180
 )
 ```
