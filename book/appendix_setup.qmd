@@ -61,4 +61,5 @@ install.packages("dials")
 install.packages("caret")
 install.packages("GenSA")
 install.packages("appeears")
+install.packages("xgboost")
 ```

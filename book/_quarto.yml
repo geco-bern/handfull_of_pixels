@@ -23,7 +23,7 @@ book:
       - phenology_trends.qmd
       - phenology_algorithms.qmd
       - phenology_modelling.qmd
-      - land_cover_classification.qmd
+      #- land_cover_classification.qmd
     - exercises.qmd
     - references.qmd
   appendices:

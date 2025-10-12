@@ -1,4 +1,4 @@
-# Exercises {#sec-exercises}
+# Exercises Geoprocessing-III {#sec-exercises}
 
 ## Phenology trends and algorithms
 
