@@ -181,22 +181,19 @@ Plotting the data downloaded shows a map of the percentage of sand in the topsoi
 
 ```{r message=FALSE}
 #| code-fold: true
-#| label: fig-sand-perc
-#| fig-cap: "Soil sand percentage (%)"
+#| label: fig-VHI
+#| fig-cap: "Vegetation health index (0-100)"
 #| fig-align: "center"
 #| out-width: "100%"
-#| fig-width: 5
 
 # libraries
 library(terra)
 library(ggplot2)
 library(tidyterra)
 
-file.exists(file.path(tempdir(), "vhi_20250705.tif"))
 vhi_07_05 <- terra::rast(file.path(tempdir(), "vhi_20250705.tif"))
 # and resample the raster to lower resolution for speed
 # vhi_07_05_coarse <- terra::aggregate(vhi_07_05, fact = 10) # coarsen to 100x100m
-
 
 # Variant 1) terra
 terra::plot(vhi_07_05)

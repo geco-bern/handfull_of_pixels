@@ -710,7 +710,7 @@ lulc_map <- terra::app(lulc_probabilities, which.max)
 
 modis_lulc <- readRDS(here::here("../data/land-cover_2012.rds")) |>
   dplyr::mutate_at(vars(matches("value")),
-            function(x) case_when(
+            function(x) dplyr::case_when(
               x <= 5  ~ 1,
               (x >= 6 & x <= 9) ~ 2,
               x == 10 ~ 3,
@@ -722,7 +722,7 @@ modis_lulc <- readRDS(here::here("../data/land-cover_2012.rds")) |>
               x == 16 ~ 9,
               x == 17 ~ 10
             )) |>
-  mt_to_terra()
+  MODISTools::mt_to_terra()
 ```
 
 ```{r warning = FALSE}
