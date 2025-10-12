@@ -26,7 +26,7 @@ knitr::include_graphics("https://www.mdpi.com/remotesensing/remotesensing-11-022
 
 The simplest approach, used with or without explicit curve-fitting, is the use of a simple threshold-based method. Here, a phenology event is registered if a given vegetation index threshold is crossed (@fig-threshold). Although scaling these products for global coverage is challenging, creating your own algorithm and implementing it on a local or regional scale is fairly simple. Below, it will be demonstrated how to calculate phenology for a vegetation index time series, for the region outlined in @sec-phenology-trends .
 
-These methods are mostly applied to various vegetation indices, which link spectral characteristics as measured by satellites to the physical development of the canopy [@Myneni1995; @Huete2002]. For example, the Normalized Vegetation Index (NDVI) uses both the red and near-infrared spectral domain (@fig-spectral-bands) to sense the state of the vegetation, while the Enhanced Vegetation Index (EVI, @fig-threshold) does the same while accounting for the saturation of the signal over dense canopies. This multi-spectral nature of satellite remote sensing data, as well as their temporal dynamics, can be leveraged using a veritable zoo of indices tailored to specific properties and research needs [@zeng_optical_2022]. An in-depth analysis on how to use these multi-spectral data in a different context is given in @sec-land-cover .
+These methods are mostly applied to various vegetation indices, which link spectral characteristics as measured by satellites to the physical development of the canopy [@Myneni1995; @Huete2002]. For example, the Normalized Difference Vegetation Index (NDVI) uses both the red and near-infrared spectral domain (@fig-spectral-bands) to sense the state of the vegetation, while the Enhanced Vegetation Index (EVI, @fig-threshold) does the same while accounting for the saturation of the signal over dense canopies. This multi-spectral nature of satellite remote sensing data, as well as their temporal dynamics, can be leveraged using a veritable zoo of indices tailored to specific properties and research needs [@zeng_optical_2022]. An in-depth analysis on how to use these multi-spectral data in a different context is given in @sec-land-cover .
 
 ::: callout-note
 ### Note
@@ -79,7 +79,7 @@ library(ggplot2)
 
 # preloading data
 # for fast processing
-df <- readRDS(here::here("data/lai_time_series.rds"))
+df <- readRDS(here::here("../data/lai_time_series.rds"))
 ```
 
 We first multiply the data with their required scaling factor, transform the date values to a formal date format, and extract the individual year from the date.
@@ -359,7 +359,7 @@ ggplot(df) +
 
 ```{r include=FALSE}
 # load buffered data, not shown in render
-r <- terra::rast(here::here("data/LAI.tiff"))
+r <- terra::rast(here::here("../data/LAI.tiff"))
 ```
 
 The above example introduced the very basics of how to deal with a simple time series and develop a proof of concept. However, to scale our example spatially you need a way to process data along space and time axis. As introduced earlier, the `terra` package allows you to manipulate 3D data cubes (along latitude, longitude, and time axis).
@@ -485,7 +485,7 @@ phenology_map <- app(r, phenophases)
 
 ```{r include=FALSE}
 phenology <- readRDS(
-  here::here("data/phenology_2012.rds")
+  here::here("../data/phenology_2012.rds")
   )
 
 phenology <-  phenology |>
@@ -507,7 +507,7 @@ phenology_raster <- MODISTools::mt_to_terra(
 ```
 
 ```{r include = FALSE}
-phenology_map <- terra::rast(here::here("data/LAI_phenology.tiff"))
+phenology_map <- terra::rast(here::here("../data/LAI_phenology.tiff"))
 phenology_map[phenology_map > 180] <- NA
 phenology_raster[phenology_raster > 180] <- NA
 ```

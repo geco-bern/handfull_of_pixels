@@ -9,7 +9,7 @@ book:
   title: "A Handful of Pixels"
   subtitle: "big science using small data"
   author: "Koen Hufkens"
-  date: "2023/03/28"
+  date: "2025/10/12"
   page-navigation: true
   chapters:
     - index.qmd

@@ -33,9 +33,9 @@ library(hexbin)
 
 # preloading data
 # for fast processing
-phenology <- readRDS(here::here("data/phenology_2012.rds"))
-dem <- terra::rast(here::here("data-raw/srtm_38_03.tif"))
-land_cover <- readRDS(here::here("data/land-cover_2012.rds"))
+phenology <- readRDS(here::here("../data/phenology_2012.rds"))
+dem <- terra::rast(here::here("../data-raw/srtm_38_03.tif"))
+land_cover <- readRDS(here::here("../data/land-cover_2012.rds"))
 ```
 
 ## Getting the required data
@@ -47,7 +47,8 @@ To detect and quantify relationships between phenology and topography, we requir
 library(geodata)
 
 # download SRTM data
-# This stores file srtm_38_03.tif in tempdir()
+# This stores file srtm_38_03.tif in 
+# subfolder elevation of tempdir()
 geodata::elevation_3s(
     lat = 46.6756,
     lon = 7.85480,
@@ -60,6 +61,7 @@ geodata::elevation_3s(
 dem <- terra::rast(
   file.path(
     tempdir(),
+    "elevation",
     "srtm_38_03.tif"
     )
 )
@@ -239,7 +241,8 @@ p2 <- ggplot() +
     ) +
   theme_bw()
 
-# compositing
+# compositing with patchwork package
+library(patchwork)
 p + p2 + 
   plot_layout(ncol = 1) + 
   plot_annotation(

@@ -10,12 +10,16 @@ Interpret the results of @sec-regression and the fit model as shown in the colla
 
 - What does the intercept indicate?
 - How can you interpret the slope?
-- Convert the established relationship with altitude, to one with temperature
-  - How would you go about this?
+- How to convert the established relationship with altitude, to one with temperature
+  - Without actually doing it, just describe how you would go about this and what you would expect? Can you approximate the effect of 1 degree of warming?
 
 ### Temporal and spatial anomalies
 
-For a location near the Adirondacks in the North-Eastern United States (@fig-leaflet-adirondacks) gather phenology data on both the greenup and maximum canopy development of a location centered on 43.5$^\circ$N and 74.5$^\circ$W. Gather data for all pixels 100 km around this location for years 2001 to 2010. Similarly, download land cover data for the year 2010 for the same spatial extent, and only consider IGBP broadleaf and mixed forest classes in your analysis.
+For a location near the Adirondacks in the North-Eastern United States (@fig-leaflet-adirondacks) gather phenology data on both the day of greenup and the day of maximum canopy development of a location centered on 43.5$^\circ$N and 74.5$^\circ$W. 
+Use a product that directly provides these quantities.
+Gather data for all pixels 100 km around this location for years 2001 to 2010. 
+Ensure you have the right region, e.g. by plotting it `terra::plot(your_raster)`.
+Similarly, download land cover data for the year 2010 for the same spatial extent, and only consider IGBP broadleaf and mixed forest classes in your analysis.
 
 For the years 2001 - 2009 calculate the long term mean (LTM) and standard deviation (SD) of the phenology metrics. Calculate location with an early greenup for 2010 (< LTM - 1 SD) and locations with late maturity (> LTM + 1 SD).
 

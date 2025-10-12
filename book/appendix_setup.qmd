@@ -33,6 +33,12 @@ install.packages("dplyr")
 # ggplot2 (this is not required but most plots shown
 # are generated using ggplot)
 install.packages("ggplot2")
+install.packages("patchwork")
+install.packages("hexbin")
+install.packages("leaflet")
+
+# to render markdown documents, install these packages
+install.packages("rmarkdown", "knitr") 
 
 # to deal with relative paths in R markdown
 # install the here package
@@ -42,4 +48,18 @@ install.packages("here")
 # libraries, these can be installed in one
 # go
 install.packages(c("terra","tidyterra","sf","MODISTools"))
+install.packages("geodata")
+install.packages("signal")
+
+install.packages("phenocamr")
+install.packages("daymetr")
+install.packages("rsample")
+install.packages("parsnip")
+install.packages("workflows")
+install.packages("tune")
+install.packages("dials")
+install.packages("caret")
+install.packages("GenSA")
+install.packages("appeears")
+install.packages("xgboost")
 ```
