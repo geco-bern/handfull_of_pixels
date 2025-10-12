@@ -504,7 +504,6 @@ xgb_results <- tune::tune_grid(
 When the model is tuned across folds the results show varied model performance. In order to select the best model, according to a set metric, you can use the `select_best()` function (for a specific metric). This will extract the model hyperparameters for model training.
 
 ```{r include = FALSE}
-xgb_best_model <- readRDS(here::here("data/xgboost_model.rds"))
 xgb_results <- readRDS(here::here("data/xgboost_grid_results.rds"))
 ```
 
@@ -536,6 +535,7 @@ However, the returned object does not specify the model structure. To combine bo
 xgb_best_model <- fit(xgb_best_hp, train)
 ```
 
+
 ### Model evaluation
 
 In machine learning model evaluation can be achieved in various ways and the standard exploration of the accuracy and variables of importance (and their relative contributions) to the model strength are beyond the scope of this example. I will only focus on the standard methodology and terminology as used in remote sensing and GIS fields.
@@ -560,7 +560,8 @@ In (@tbl-confusion-matrix) a three class confusion matrix is shown with the mode
 Simple confusion matrices can be calculated using R using the `table` function comparing the true reference labels with the predicted values for our model.
 
 ```{r include = FALSE}
-xgb_best_model <- readRDS(here::here("data/xgboost_model.rds"))
+# saveRDS(bundle::bundle(xgb_best_model), here::here("data/xgboost_model_bundled.rds"), compress = "xz")
+xgb_best_model <- bundle::unbundle(readRDS(here::here("data/xgboost_model_bundled.rds")))
 
 library(stringr)
 
