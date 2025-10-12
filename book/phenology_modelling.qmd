@@ -504,9 +504,12 @@ library(appeears)
 library(sf)
 
 rs_set_key()
-# if the package has no access to your system password manager, potentially use options(keyring_backend="file") before attempting to set a key
+# if the package has no access to your system password manager, 
+# potentially use options(keyring_backend="file") before 
+# attempting to set a key
 
-# To see whether the setup has worked, you can try to get the metadata of the product DAYMET v4:
+# To see whether the setup has worked, you can try to get the 
+# metadata of the product DAYMET v4:
 rs_layers("DAYMET.004")
 ```
 
@@ -555,7 +558,7 @@ rs_request(
 )
 ```
 
-```{r eval = TRUE}
+```{r eval = TRUE, warning = FALSE}
 # Load the downloaded daily data:
 r1 <- terra::rast(
   here::here("../data",
@@ -570,9 +573,12 @@ terra::crs(r1) <- "epsg:4326"
 # r1["tmin"]
 ```
 
-In case there are issues with creating a user account or the download you can use:
-```{r eval = FALSE, warning = FALSE}
-r1 <- terra::rast("https://github.com/geco-bern/handfull_of_pixels/data/DAYMET.004_2012/DAYMET.004_1km_aid0001.nc?raw=TRUE")
+In case there are issues with creating a NASA user account or the download you can use:
+```{r eval = FALSE}
+local_file <- tempfile(fileext = ".nc")
+download.file("https://github.com/fabern/handfull_of_pixels/raw/refs/heads/main/data/DAYMET.004_2012/DAYMET.004_1km_aid0001.nc",
+              destfile = local_file)
+r1 <- terra::rast(local_file)
 # Assign the correct CRS, e.g. WGS84 (EPSG:4326)
 terra::crs(r1) <- "epsg:4326"
 ```
@@ -581,8 +587,9 @@ terra::crs(r1) <- "epsg:4326"
 # Calculate the daily mean values based on 'tmin' and 'tmax'
 mean_layer <- terra::mean(r1["tmax"], 
                           r1["tmin"])
-varnames(mean_layer) <- "tmean"                             # fix the variable naming
-names(mean_layer) <- gsub("tmax","tmean",names(mean_layer)) # fix the variable naming
+# fix the variable naming
+varnames(mean_layer) <- "tmean"                             
+names(mean_layer) <- gsub("tmax","tmean",names(mean_layer))
 ```
 
 This results in a raster containing a single variable 'tmean' for each day:
