@@ -496,7 +496,7 @@ More advanced models exist. Such models may include not only temperature but als
 With a basic model parameterized you can explore if and how the relationship between observed and predicted values scale across a larger landscape. As example we will use a region around Boston in the eastern United States, defined by the coordinates -72 to -70 East, and 42 to 44 North.
 I will use DAYMET raster data to scale the results spatially (relying on the same driver data as used during parameterization). First I download both minimum and maximum temperature data and average them to a mean daily value (as previously used), using the `appeears` R package [@hufkens2023].
 
-To do so, first create a NASA Earth Data user and setup the appeears package with that user (see more detailed informatio in the [appeears package documentation](https://bluegreen-labs.github.io/appeears/articles/appeears_vignette.html).
+To do so, first create a AppEEARS Earth Data Cloud user ([here](https://urs.earthdata.nasa.gov/home)) and setup the appeears package with that user (see more detailed information in the [appeears package documentation](https://bluegreen-labs.github.io/appeears/articles/appeears_vignette.html).
 
 ```{r eval = FALSE}
 library(keyring)
