@@ -156,32 +156,22 @@ status <- httr::GET(
 )
 ```
 
-Below, we provide an example of using the `GET` command to download data from the [Regridded Harmonized World Soil Database (v1.2)](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247) as hosted on the Oak Ridge National Laboratory computer infrastructure. In this case we download a subset of a global map of topsoil sand content (`T_SAND`, %), or other paramters as listed on the [ORNL DAAC data portal](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1247).
+Below, we provide an example of using the `GET` command to download data from layers available at [map.geo.admin.ch](https://map.geo.admin.ch/). In this case we download a subset of a Swiss forest-wide map of vegetation health index VHI ([more details on the product here](https://data.geo.admin.ch/browser/index.html#/collections/ch.swisstopo.swisseo_vhi_v100?.language=en)).
 
 ```{r eval = TRUE, warning=FALSE, message=FALSE}
-# set API URL endpoint
-# for the total sand content
-url <- "https://thredds.daac.ornl.gov/thredds/ncss/ornldaac/1247/T_SAND.nc4"
-
-# formulate query to pass to httr
-query <- list(
-  "var" = "T_SAND",
-  "south" = 32,
-  "west" = -81,
-  "east" = -80,
-  "north" = 34,
-  "disableProjSubset" = "on",
-  "horizStride" = 1,
-  "accept" = "netcdf4"
-)
+# # set API URL endpoint
+# for the vegetation health index VHI
+url <- "https://data.geo.admin.ch/ch.swisstopo.swisseo_vhi_v100/2025-07-05t235959/ch.swisstopo.swisseo_vhi_v100_mosaic_2025-07-05t235959_forest-10m.tif"
+# for certain API, we could additionally define a query and pass to GET(). 
+# for geo.admin this is not supported and details such as date need to 
+# be provided through the URL
 
 # download data using the
-# API endpoint and query data
+# API endpoint (and query) data
 status <- httr::GET(
   url = url,
-  query = query,
   httr::write_disk(
-    path = file.path(tempdir(), "T_SAND.nc"),
+    path = file.path(tempdir(), "vhi_20250705.tif"),
     overwrite = TRUE
   )
 )
@@ -202,14 +192,22 @@ library(terra)
 library(ggplot2)
 library(tidyterra)
 
-sand <- terra::rast(file.path(tempdir(), "T_SAND.nc"))
-ggplot() +
-  tidyterra::geom_spatraster(data = sand) +
-  scale_fill_viridis_c(
-    na.value = NA,
-    name = "sand (%)"
-    ) +
-  theme_bw()
+file.exists(file.path(tempdir(), "vhi_20250705.tif"))
+vhi_07_05 <- terra::rast(file.path(tempdir(), "vhi_20250705.tif"))
+# and resample the raster to lower resolution for speed
+# vhi_07_05_coarse <- terra::aggregate(vhi_07_05, fact = 10) # coarsen to 100x100m
+
+
+# Variant 1) terra
+terra::plot(vhi_07_05)
+
+# # Variant 2) ggplot
+# ggplot() +
+#   tidyterra::geom_spatraster(data = vhi_07_05) +
+#   scale_fill_viridis_c(
+#     na.value = NA,
+#     name = "VHI") +
+#   theme_bw()
 ```
 
 ::: callout-note
