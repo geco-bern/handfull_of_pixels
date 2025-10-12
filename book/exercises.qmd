@@ -10,12 +10,16 @@ Interpret the results of @sec-regression and the fit model as shown in the colla
 
 - What does the intercept indicate?
 - How can you interpret the slope?
-- Convert the established relationship with altitude, to one with temperature
-  - How would you go about this?
+- How to convert the established relationship with altitude, to one with temperature
+  - Without actually doing it, just describe how you would go about this and what you would expect? Can you approximate the effect of 1 degree of warming?
 
 ### Temporal and spatial anomalies
 
-For a location near the Adirondacks in the North-Eastern United States (@fig-leaflet-adirondacks) gather phenology data on both the greenup and maximum canopy development of a location centered on 43.5$^\circ$N and 74.5$^\circ$W. Gather data for all pixels 100 km around this location for years 2001 to 2010. Similarly, download land cover data for the year 2010 for the same spatial extent, and only consider IGBP broadleaf and mixed forest classes in your analysis.
+For a location near the Adirondacks in the North-Eastern United States (@fig-leaflet-adirondacks) gather phenology data on both the day of greenup and the day of maximum canopy development of a location centered on 43.5$^\circ$N and 74.5$^\circ$W. 
+Use a product that directly provides these quantities.
+Gather data for all pixels 100 km around this location for years 2001 to 2010. 
+Ensure you have the right region, e.g. by plotting it `terra::plot(your_raster)`.
+Similarly, download land cover data for the year 2010 for the same spatial extent, and only consider IGBP broadleaf and mixed forest classes in your analysis.
 
 For the years 2001 - 2009 calculate the long term mean (LTM) and standard deviation (SD) of the phenology metrics. Calculate location with an early greenup for 2010 (< LTM - 1 SD) and locations with late maturity (> LTM + 1 SD).
 
@@ -51,7 +55,7 @@ Use details in @sec-accessing-data, @sec-geospatial and @sec-phenology-trends to
 
 :::
 
-### Scaling the calculation of phenology metrics (optional)
+### Scaling the calculation of phenology metrics
 
 In this exercise you will be required to download external data manually. First you will have to sign up for a [NASA EarthData login](https://www.earthdata.nasa.gov/) to access the required data. The NASA EarthData login provides access to a wide range of data products.
 
@@ -81,3 +85,30 @@ All information for this exercise can be found in @sec-geospatial and @sec-algor
 
 :::
 
+## Phenology modelling
+
+- How can you improve the model used to regionally scale the results in @sec-phenology-modelling? 
+  - Provide at least three (3) ways to improve the model used.
+- Implement at least one of these methods
+- Statistically compare the results with the MODIS MCD12Q2 phenology product
+  - compare the data spatially
+  - describe why you might or might not see the same patterns
+  - consider that 2010 was a 'special' year for the north east of the US
+
+## Land-Use and Land-Cover modelling
+
+- How can you improve the model used to map LULC? 
+  - Provide at least four (4) ways to improve the model used.
+- Implement at least two of these methods yourself
+- Demonstrate improved model skill by submitting your model results to our internal leaderboard
+  - the leaderboard requires you to submit a CSV file with labels
+    - training data can be downloaded [here](https://zenodo.org/records/8298491)
+    - unlabelled out-of-sample test data can be downloaded [here](https://zenodo.org/records/8298491)
+    - submissions should be made as a **pull request** to the [AGDS2 course repository](https://github.com/geco-bern/agds2_course)
+    - your CSV file with labels should be stored in `data/leaderboard/fall_2023`
+    - the file should be named `xyz_results.csv` (replace xyz with your github handle)
+
+::: {.callout-note}
+## Note
+Use the appropriate APIs to download the required data.
+:::

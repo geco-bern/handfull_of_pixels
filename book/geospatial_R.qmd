@@ -10,7 +10,7 @@ library(xgboost)
 set.seed(131)
 
 # read data from file
-r <- terra::rast(here::here("data/demo_data.nc"))
+r <- terra::rast(here::here("../data/demo_data.nc"))
 ```
 
 Geospatial data procesing in `R` follows the standard raster vs. vector data model dichotomy as seen throughout most geographic information systems (GIS, @fig-datatypes). Here, raster data represent data on a regular grid, while vector data describe geographic features using points, lines and polygons (shapes). The main difference between both types is their sensitivity to resolution, which is predetermined in the case of raster data, while undetermined using a vector topology. 
