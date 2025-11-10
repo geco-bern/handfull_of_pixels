@@ -273,6 +273,7 @@ validation_selection <- readr::read_rds(
 # train and test data for the competition was
 # downloaded with `data-raw/download_competition_data.R`
 # and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
 # and deposited on Zenodo.
 
 # see further below how to directly load train and 
@@ -349,6 +350,7 @@ rs_request_batch(
 # train and test data for the competition was
 # downloaded with `data-raw/download_competition_data.R`
 # and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
 # and deposited on Zenodo.
 
 # see further below how to directly load train and 
@@ -432,6 +434,7 @@ ml_df <- left_join(nbar_wide, sites) |>
 # train and test data for the competition was
 # downloaded with `data-raw/download_competition_data.R`
 # and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
 # and deposited on Zenodo.
 
 # see further below how to directly load train and 
@@ -470,6 +473,7 @@ test <- rsample::testing(ml_df_split)
 # train and test data for the competition was
 # downloaded with `data-raw/download_competition_data.R`
 # and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
 # and deposited on Zenodo.
 
 
