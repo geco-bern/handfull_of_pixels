@@ -175,8 +175,8 @@ palcol <- colorFactor(
 
 # build the leaflet map
 leaflet() |> 
-  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addProviderTiles(providers$Esri.WorldTopoMap, group = "World Topo") |>
+  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addRasterImage(
     kmeans_map,
     colors = palcol,
@@ -185,7 +185,7 @@ leaflet() |>
     group = "k-means cluster results"
     ) |>
   addLayersControl(
-    baseGroups = c("World Imagery","World Topo"),
+    baseGroups = c("World Topo","World Imagery"),
     position = "topleft",
     options = layersControlOptions(collapsed = FALSE),
     overlayGroups = c("k-means cluster results")
@@ -890,8 +890,8 @@ palcol <- colorFactor(
 
 # build the leaflet map
 leaflet() |> 
-  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addProviderTiles(providers$Esri.WorldTopoMap, group = "World Topo") |>
+  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addRasterImage(
     lulc_map,
     colors = palcol,
@@ -907,7 +907,7 @@ leaflet() |>
     group = "MODIS MCD12Q1"
   ) |>
   addLayersControl(
-    baseGroups = c("World Imagery","World Topo"),
+    baseGroups = c("World Topo", "World Imagery"),
     position = "topleft",
     options = layersControlOptions(collapsed = FALSE),
     overlayGroups = c("XGBOOST", "MODIS MCD12Q1")
