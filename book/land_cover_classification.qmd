@@ -198,15 +198,15 @@ leaflet() |>
     )
 ```
 
-As the example uses an unsupervised classification we do not know what land cover types are included in this map. The model that we generate is therefore purely data informed, and not validated against external known Land-Use and Land-Cover locations. However, a quick visual inspection shows that for a `k` of 2 the split between the clusters divides vegetation from glaciers, water bodies, and urban areas (@fig-kmeans-map). The (seasonal) differences in LAI were used in the k-means analysis to minimize the (seasonal) variance between pixels. In particular, our analysis with two classes separates areas with a seasonal dynamic from those without one. Although the k-means algorithm is fast it only has one parameter which can shape the outcome of algorithm (i.e. `k`). The model is therefore too inflexible for more complex classification tasks. The k-means model is therefore rarely used as a scalable solution to generate maps based upon **in-situ** validation data (see below).
+As the example uses an unsupervised classification we do not know what land cover types are included in this map. The model that we generate is therefore purely data informed, and not validated against external known Land-Use and Land-Cover locations. However, a quick visual inspection shows that for a `k` of 2 the split between the clusters divides vegetation from glaciers, water bodies, and urban areas (@fig-kmeans-map). The (seasonal) differences in LAI were used in the k-means analysis to minimize the (seasonal) variance between pixels. In particular, our analysis with two classes separates areas with a seasonal dynamic from those without one. Although the k-means algorithm is fast it only has one parameter which can shape the outcome of algorithm (i.e. `k`). The model is therefore too inflexible for more complex classification tasks. Moreover, the k-means model is rarely used as a scalable solution to generate maps based upon **in-situ** validation data, since this requires supervised machine learning (see below).
 
 In this example I used an index, i.e. LAI, which does not provide sufficient information to distinguish between more subtle Land-Use or Land-Cover classes (e.g. evergreen forests and or mixed forest types). In short, a better approach would use more data and a more sophisticated model approach to create an informed model which scales easily to different land cover types and new locations.
 
-## supervised machine learning
+## Supervised machine learning
 
 In contrast to k-means, one can use supervised classification of data where reference data is used as a benchmark on which to train a machine learning algorithm. A supervised machine learning algorithm will try to minimize the classification error on a known training or validation dataset. The methodology, model complexity and parameters are dependent on the provided data, the complexity of the problem and at times the available computational resources.
 
-For example the MODIS land-cover and land-use product (MCD12Q2) use >1500 validation locations, three years of temporal data and a variety of multiple spectral bands, as well as ancillary data (topography, view angle geometry) to train their boosted classification tree [@Friedl2002, @Friedl2010]. In the below example I will try to recreate a part of the MCD12Q2 LULC workflow (red boxes, @fig-classification-workflow). A full introduction to machine learning is beyond the scope of this course and I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and @stocker_applied_2023 for an introduction in machine learning using R.
+For example the creation of the MODIS land-cover and land-use product (MCD12Q2) uses >1500 validation locations, three years of temporal data and a variety of multiple spectral bands, as well as ancillary data (topography, view angle geometry) to train their boosted classification tree [@Friedl2002; @Friedl2010]. In the below example I will try to recreate a part of the MCD12Q2 LULC workflow (red boxes, @fig-classification-workflow). A full introduction to machine learning is beyond the scope of this course and I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an introduction in machine learning using R.
 
 ```{r}
 #| label: fig-classification-workflow
@@ -221,7 +221,7 @@ knitr::include_graphics("./images/Friedl_2010.svg")
 
 Critical in our exercise is the reference data we use to classify different Land-Use and Land-Cover types with. Generally ground truth data is used in order to create a training dataset. This ground truth data are locations which are visually validated to belong to a particular Land-Use or Land-Cover class. These data are gathered by *in-situ* surveys, or leverage high(er) resolution data and visual interpretation to confirm the the Land-Use or Land-Cover type. 
 
-For example, the LUCAS database of the European Commission Joint Research Center provides three-yearly survey data on the Land-Use and Land-Cover state [@dandrimont_harmonised_2020], while the Geo-Wiki project used crowdsourcing to confirm Land-Use and Land-Cover types using high resolution remote sensing imagery [@fritz_global_2017]. Other products use in house databases using similar approaches [@Friedl2010]. In this example, I will rely on the freely available crowdsourced (Geo-Wiki) dataset [@fritz_global_2017]. These validation labels which differ slightly from the International Geosphere-Biosphere Programme (IGBP) classes used in the MCD12Q1 product, but the general principles are the same.
+For example, the LUCAS database of the European Commission Joint Research Center provides three-yearly survey data on the Land-Use and Land-Cover state [@dandrimont_harmonised_2020], while the Geo-Wiki project used crowdsourcing to confirm Land-Use and Land-Cover types using high resolution remote sensing imagery [@fritz_global_2017]. Other products use in house databases using similar approaches [@Friedl2010]. In this example, I will rely on the freely available crowdsourced (Geo-Wiki) dataset [@fritz_global_2017]. These validation labels differ slightly from the International Geosphere-Biosphere Programme (IGBP) classes used in the MCD12Q1 product. Nevertheless, the general principles are the same.
 
 ```{r eval = FALSE}
 # Read the validation sites from
@@ -232,7 +232,7 @@ validation_sites <- readr::read_csv(
 )
 ```
 
-I will restrict the number of validation sites to a manageable number of 150 random locations for each Land-Use or Land-Cover class, limited to high quality locations on the northern hemisphere (as we will apply our analysis regionally to Switzerland). The training data in @fritz_global_2017 contains various crowdsourcing competitions of which nr. 1 refers to land-use and nr. 4 to land-cover classes. The below routine shows how to gather 150 random locations for each Land-Use or Land-Cover class from @fritz_global_2017. The locations of this data will be used to train and test the supervised machine learning algorithm.
+I will restrict the number of validation sites to a manageable number of 150 random locations for each Land-Use or Land-Cover class, limited to high quality locations on the northern hemisphere (as we will apply our analysis regionally to Switzerland). The training data in @fritz_global_2017 contains data from different crowdsourcing competitions. Nr. 1 refers to Land-Use and nr. 4 to Land-Cover classes. The below routine shows how to gather 150 random locations for each Land-Use or Land-Cover class from @fritz_global_2017. The locations of this data will be used to train and test the supervised machine learning algorithm.
 
 ::: {.panel-tabset group="book-exercise"}
 ## For Book
@@ -278,7 +278,7 @@ The samples are generated randomly, although a random seed ensures some reproduc
 
 ### Multi-spectral training data
 
-As with our k-means clustering example we need data to inform our supervised classification. In the interest of time, we gather MODIS data for only four spectral bands (1 to 7) from the MCD43A4 data product. This is a subset of what is used in the formal MCD12Q1 LULC product. The MCD43A4 data product provides daily multi-spectral data corrected for (geometric) view angle effects between the satellite and the sun.
+As with our k-means clustering example we need data to inform our supervised classification. The MODIS data product MCD43A4 provides daily multi-spectral data, which is corrected for (geometric) view angle effects between the satellite and the sun. In below example in the interest of time, we gather data for only four spectral bands (1 to 4) from the MCD43A4 data product. This is a subset of what is used in the formal MCD12Q1 LULC product.
 
 The required MCD43A4 data is not readily available using the {MODISTools} R package, as previously introduced, and I will therefore rely on the [{appears} R package](https://bluegreen-labs.github.io/appeears) [@hufkens_bluegreen-labsappeears_2023] to query and download training data. The {appears} package relies on the NASA AppEEARS API service which provides easy access to remote sensing data subsets similar to the ORNL DAAC service, as used by {MODISTools}. The provided data covers more data products, but does require a login (API key) limiting ad-hoc accessibility.
 
@@ -467,7 +467,7 @@ With both a true training and testing dataset in place we can start to implement
 
 To specify our model I will use the [{parsnip} R package](https://parsnip.tidymodels.org/) which goal it is "... to provide a tidy, unified interface to models that can be used to try a range of models without getting bogged down in the syntactical minutiae of the underlying packages". Parsnip therefore will remove some of the complexity of using a package such as [{xgboost}](https://xgboost.readthedocs.io/en/stable/R-package/xgboostPresentation.html) might present. It also allows you to switch between different model structures with ease, only swapping a few arguments. Parsnip will make sure that model parameters are correctly populated and forwarded.
 
-Following [@Friedl2010] we will implement a boosted regression (classification) regression tree using the {xgboost} R package, via the convenient {parsnip} R package interface. The model allows for a number of hyper-parameters, i.e. parameters which do not define the base {xgboost} algorithm but the implementation and structure of it. In this example hyper-parameters for the number of trees is fixed at 50, while the tree depth is flexible (parameters marked `tune()`, see below).
+Following [@Friedl2010] we will implement a boosted regression (classification) tree using the {xgboost} R package, via the convenient {parsnip} R package interface. The model allows for a number of hyper-parameters, i.e. parameters which do not define the base {xgboost} algorithm but the implementation and structure of it. In this example hyper-parameters for the number of trees is fixed at 50, while the tree depth is flexible (parameters marked `tune()`, see below).
 
 ::: callout-note
 ### Note
@@ -575,7 +575,7 @@ xgb_best_hp <- tune::finalize_workflow(
 print(xgb_best_hp)
 ```
 
-However, the returned object does not specify the model structure. To combine both the model structure (workflow) with the optimal parameters we need to combine both. In short, we need to `finalize_workflow()` which combines the model workflow with the model parameters into a final functional model workflow with optimal hyper-parameters. Note that the resulting model workflow does not contain any tunable (`tune()`) fields as shown above! The selected model workflow, given our provided constrains on the hyperparamters, has 50 trees, has minimum 11 data points in a node (min_n) and a tree depth of 5. We will use this workflow to fit a final training run (`fit()`) with optimal hyper-parameters, which returns a model which provides the desired (classification) results!
+However, the returned object does not specify the model structure. To combine both the model structure (workflow) with the optimal parameters we need to combine both. In short, we need to `finalize_workflow()` which combines the model workflow with the model parameters into a final functional model workflow with optimal hyper-parameters. Note that the resulting model workflow does not contain any tunable (`tune()`) fields as shown above! The selected model workflow, given our provided constrains on the hyperparamters, has 50 trees, has minimum 11 data points in a node (min_n) and a tree depth of 5. We will use this workflow to `fit()` a final training run (on all training data `data`, i.e. including parts of the data that were set apart for the cross-validation runs) with the chosen optimal hyper-parameters. This returns our final model which provides the desired (classification) results!
 
 ```{r eval = FALSE}
 # train a final (best) model with optimal
@@ -592,13 +592,13 @@ In machine learning model evaluation can be achieved in various ways and the sta
 
 In the case of Land-Use and Land-Cover mapping classifications results are often reported as an confusion matrix and their associated metrics. The confusion matrix tells us something about accuracy (as perceived by users or producers), while the overall accuracy and Kappa coefficient allows us the compare the accuracy across modelled (map) results. 
 
-In (@tbl-confusion-matrix) a three class confusion matrix is shown with the model output along the top-bottom axis and the reference dataset shown along the left-right axis. In addition, the user and producer accuracy is shown. The user accuracy is the fraction of correctly classified classes with respect to the false positives (Type I) errors for a given class. For example, for a set of reference data (classes) the classified image commit false labels for class one (1) to classes two and three (2,3). These false positives are therefore also called commission errors. Similarly, the producer accuracy is the fraction of correctly classified classes with respect to the false negative (Type II) errors for a given class. For example, when the reference data identifies the data as class 1, but the classified image identifies it also as class 2 and 3. Values are omitted from the correct class and also called omission errors. In short, in remote sensing, the Type I and II errors are rephrased as the perspective taken during the assessment, either the user or the producer. In a strict machine learning context the user and producer accuracy would be called precision and recall, respectively. I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and @stocker_applied_2023 for an in depth discussion on machine learning model evaluation.
+In (@tbl-confusion-matrix) a three class confusion matrix is shown with the model prediction in rows and the reference (real) classes in columns. In addition, the user and producer accuracies are shown. The user accuracy is the fraction of correctly predicted classes with respect to the false positives (Type I) errors for a given class. For example, among the reference sites that were predicted as class one (1) some were actually class two or three (2,3). The model committed the wrong label (1) to these sites. These false positives are therefore also called commission errors. Imagine a user of a prediction map is interested in a specific pixel that was predicted as class one (1), the user accuracy thus estimates how accurate this attribution to class one is. Similarly, imagine a producer (you) of a prediction map. Unlike the user, you do have access to the reference data and wonder for all your reference points of e.g. class one (1), how many got predicted correctly. The producer accuracy is the fraction of correctly predicted classes with respect to the false negative (Type II) errors for a given reference class. For example, for all sites identified as class 1 in the reference data, some were predicted as class 2 and 3 by the model. These sites were omitted from the correct class and are thus also called omission errors. In short, in remote sensing, the Type I and II errors are rephrased as the perspective taken during the assessment, either the user or the producer. In a strict machine learning context the user and producer accuracy would be called precision and recall, respectively. I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an in depth discussion on machine learning model evaluation.
 
-|   | 1  |  2 | 3  | total | User accuracy (Type I) | Kappa  |
+|   | Ref. 1  |  Ref. 2 | Ref. 3  | total | User accuracy (Type I) | Kappa  |
 |---|---|---|---|---|---|---|
-| *1*  | 49  |  4 | 4  |  57 |  0.89 |   |
-| *2*  |  2 | 40  | 2  |  44 |  0.90 |   |
-| *3*  |  3 | 3  |  59 | 65  |  0.90 |   |
+| Pred. *1*  | 49  |  4 | 4  |  57 |  0.89 |   |
+| Pred. *2*  |  2 | 40  | 2  |  44 |  0.90 |   |
+| Pred. *3*  |  3 | 3  |  59 | 65  |  0.90 |   |
 | *total*  |  54 |  47 |  65 |  166 |   |   |
 | *Producer accuracy (Type II)*  |  0.90 |  0.85 |  0.90 |   |  *0.89* |   |
 | *Kappa*  |   |   |   |   |   |  *0.84* |
@@ -681,7 +681,7 @@ caret::confusionMatrix(
 
 ### Model scaling
 
-To scale our new model to other locations, or regions we need to download additional data. I will demonstrate how to download geospatial data, rather than point data used during training, using the same {appeears} R package. This data will then be used to run our previously optimized model, and the results will be presented as a map. Since our workflow followed the original MODIS MCD12Q1 LULC map protocol I will compare both maps (while remapping some of the values from MODIS IGBP Land-Use and Land-Cover classes).
+To scale our new model to other locations, or regions we need to download additional data. I will demonstrate how to download geospatial data, rather than point data used during training, using the same {appeears} R package. This data will then be used to run our previously optimized model, and the results will be presented as a map. Since our workflow followed the original MODIS MCD12Q1 LULC map protocol I will compare both maps (this requires remapping some of the values from MODIS IGBP Land-Use and Land-Cover classes).
 
 #### Data download {.unnumbered}
 
