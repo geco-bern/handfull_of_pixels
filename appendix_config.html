@@ -122,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <img src="./images/logo.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title"></span>
+    <span class="navbar-title">A Handful of Pixels</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -341,147 +341,93 @@ time zone: Europe/Zurich
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats     graphics  grDevices datasets  utils     methods   base     
 
 loaded via a namespace (and not attached):
  [1] htmlwidgets_1.6.4 compiler_4.5.1    fastmap_1.2.0     cli_3.6.5        
- [5] tools_4.5.1       htmltools_0.5.8.1 rstudioapi_0.17.1 rmarkdown_2.30   
- [9] knitr_1.50        jsonlite_2.0.0    xfun_0.53         digest_0.6.37    
-[13] renv_0.17.3       rlang_1.1.6       evaluate_1.0.5   
+ [5] htmltools_0.5.8.1 tools_4.5.1       rstudioapi_0.17.1 rmarkdown_2.30   
+ [9] knitr_1.50        jsonlite_2.0.0    xfun_0.54         digest_0.6.37    
+[13] rlang_1.1.6       renv_0.17.3       evaluate_1.0.5   
 
 # Project ============================
 Project path: "~/GitHub/geco-bern/handfull_of_pixels"
 
 # Status =============================
-* The project is already synchronized with the lockfile.
+The following package(s) are out of sync:
+
+   Package   Lockfile Version   Library Version
+       hms              1.1.3             1.1.4
+      lava              1.8.1             1.8.2
+   listenv              0.9.1            0.10.0
+ progressr             0.16.0            0.17.0
+  timeDate           4041.110          4051.111
+      tune              2.0.0             2.0.1
+      xfun               0.53              0.54
+      xml2              1.4.0             1.4.1
+
+Use `renv::snapshot()` to save the state of your library to the lockfile.
+Use `renv::restore()` to restore your library from the lockfile.
+
 
 # Packages ===========================
                      Library Source   Lockfile Source Path Dependency
-AsioHeaders         1.30.2-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-BH                  1.87.0-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-BayesianTools          0.1.8   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Brobdingnag            1.2-9   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-CFtime                 1.6.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 DBI                    1.2.3   CRAN      1.2.3   CRAN  [1]   indirect
-DHARMa                 0.4.7   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Deriv                  4.2.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 DiceDesign              1.10   CRAN       1.10   CRAN  [1]   indirect
-FNN                  1.1.4.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Formula                1.2-5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 GPfit                  1.0-9   CRAN      1.0-9   CRAN  [1]   indirect
 GenSA               1.1.14.1   CRAN   1.1.14.1   CRAN  [1]     direct
-IDPmisc               1.1.21   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 KernSmooth           2.23-26   CRAN    2.23-26   CRAN  [2]   indirect
 MASS                  7.3-65   CRAN     7.3-65   CRAN  [2]   indirect
 MODISTools             1.1.5   CRAN      1.1.5   CRAN  [1]     direct
-MODIStsp          2.1.0.9001 GitHub       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 Matrix                 1.7-3   CRAN      1.7-3   CRAN  [2]   indirect
-MatrixModels           0.5-4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Metrics                0.1.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 ModelMetrics         1.2.2.2   CRAN    1.2.2.2   CRAN  [1]   indirect
-R.cache               0.17.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-R.methodsS3            1.8.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-R.oo                  1.27.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-R.utils               2.13.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 R6                     2.6.1   CRAN      2.6.1   CRAN  [1]   indirect
-RApiSerialize          0.1.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 RColorBrewer           1.1-3   CRAN      1.1-3   CRAN  [1]   indirect
-RNetCDF               2.11-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RSpectra              0.16-2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 Rcpp                   1.1.0   CRAN      1.1.0   CRAN  [1]   indirect
-RcppArmadillo       14.6.0-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppEigen          0.3.4.0.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppParallel          5.1.10   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-RcppThread             2.2.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-Rdpack                 2.6.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 S7                     0.2.0   CRAN      0.2.0   CRAN  [1]   indirect
 SQUAREM               2021.1   CRAN     2021.1   CRAN  [1]   indirect
-SparseM               1.84-2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-TH.data                1.1-3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 V8                     8.0.1   CRAN      8.0.1   CRAN  [1]   indirect
-abind                  1.4-8   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ape                    5.8-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 appeears                 1.1   CRAN        1.1   CRAN  [1]     direct
 askpass                1.2.1   CRAN      1.2.1   CRAN  [1]   indirect
-assertthat             0.2.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 backports              1.5.0   CRAN      1.5.0   CRAN  [1]   indirect
 base64enc              0.1-3   CRAN      0.1-3   CRAN  [1]   indirect
-bayestestR            0.16.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 bit                    4.6.0   CRAN      4.6.0   CRAN  [1]   indirect
 bit64                4.6.0-1   CRAN    4.6.0-1   CRAN  [1]   indirect
-bitops                 1.0-9   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 blob                   1.2.4   CRAN      1.2.4   CRAN  [1]   indirect
-bookdown                0.43   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 boot                  1.3-31   CRAN       &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-brew                  1.0-10   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-bridgesampling         1.1-2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-brio                   1.1.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 broom                 1.0.10   CRAN     1.0.10   CRAN  [1]   indirect
 bslib                  0.9.0   CRAN      0.9.0   CRAN  [1]   indirect
 bundle                 0.1.2   CRAN      0.1.2   CRAN  [1]     direct
 cachem                 1.1.0   CRAN      1.1.0   CRAN  [1]   indirect
 callr                  3.7.6   CRAN      3.7.6   CRAN  [1]   indirect
-car                    3.1-3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-carData                3.0-5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 caret                  7.0-1   CRAN      7.0-1   CRAN  [1]     direct
 cellranger             1.1.0   CRAN      1.1.0   CRAN  [1]   indirect
-changepoint              2.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-checkthat              0.1.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-chromote               0.5.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 class                 7.3-23   CRAN     7.3-23   CRAN  [2]   indirect
 classInt              0.4-11   CRAN     0.4-11   CRAN  [1]   indirect
 cli                    3.6.5   CRAN      3.6.5   CRAN  [1]   indirect
 clipr                  0.8.0   CRAN      0.8.0   CRAN  [1]   indirect
 clock                  0.7.3   CRAN      0.7.3   CRAN  [1]   indirect
-clue                  0.3-66   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 cluster              2.1.8.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-coda                0.19-4.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 codetools             0.2-20   CRAN     0.2-20   CRAN  [2]   indirect
-collections            0.3.9   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-commonmark             2.0.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 compiler                &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-confintr               1.0.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 conflicted             1.2.0   CRAN      1.2.0   CRAN  [1]   indirect
-corrplot                0.95   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-covr                   3.6.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-cowplot                1.2.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 cpp11                  0.5.2   CRAN      0.5.2   CRAN  [1]   indirect
 crayon                 1.5.3   CRAN      1.5.3   CRAN  [1]   indirect
-credentials            2.0.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 crosstalk              1.2.2   CRAN      1.2.2   CRAN  [1]   indirect
 crul                   1.6.0   CRAN      1.6.0   CRAN  [1]   indirect
 curl                   7.0.0   CRAN      7.0.0   CRAN  [1]   indirect
 data.table            1.17.8   CRAN     1.17.8   CRAN  [1]   indirect
-datastorr              0.0.4 GitHub       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-datawizard             1.1.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 daymetr                1.7.1   CRAN      1.7.1   CRAN  [1]     direct
 dbplyr                 2.5.1   CRAN      2.5.1   CRAN  [1]   indirect
-desc                   1.4.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-devtools               2.4.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 diagram                1.6.5   CRAN      1.6.5   CRAN  [1]   indirect
 dials                  1.4.2   CRAN      1.4.2   CRAN  [1]     direct
-diffobj                0.3.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 digest                0.6.37   CRAN     0.6.37   CRAN  [1]   indirect
-doBy                  4.6.27   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-doFuture               1.1.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-doParallel            1.0.17   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-downlit                0.4.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 dplyr                  1.1.4   CRAN      1.1.4   CRAN  [1]     direct
 dtplyr                 1.3.2   CRAN      1.3.2   CRAN  [1]   indirect
-dtw                   1.23-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-dtwclust               6.0.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 e1071                 1.7-16   CRAN     1.7-16   CRAN  [1]   indirect
-elevatr               0.99.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ellipse                0.5.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ellipsis               0.3.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-emulator              1.2-24   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 evaluate               1.0.5   CRAN      1.0.5   CRAN  [1]   indirect
-expm                   1.0-0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-fansi                  1.0.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 farver                 2.1.2   CRAN      2.1.2   CRAN  [1]   indirect
 fastmap                1.2.0   CRAN      1.2.0   CRAN  [1]   indirect
 filelock               1.0.3   CRAN      1.0.3   CRAN  [1]   indirect
-flexclust              1.5.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 fontawesome            0.5.3   CRAN      0.5.3   CRAN  [1]   indirect
 forcats                1.0.1   CRAN      1.0.1   CRAN  [1]   indirect
 foreach                1.5.2   CRAN      1.5.2   CRAN  [1]   indirect
@@ -490,268 +436,163 @@ fs                     1.6.6   CRAN      1.6.6   CRAN  [1]   indirect
 furrr                  0.3.1   CRAN      0.3.1   CRAN  [1]   indirect
 future                1.67.0   CRAN     1.67.0   CRAN  [1]   indirect
 future.apply          1.20.0   CRAN     1.20.0   CRAN  [1]   indirect
-gap                      1.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gap.datasets           0.0.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 gargle                 1.6.0   CRAN      1.6.0   CRAN  [1]   indirect
-gdalUtilities          1.2.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 generics               0.1.4   CRAN      0.1.4   CRAN  [1]   indirect
 geodata                0.6-6   CRAN      0.6-6   CRAN  [1]     direct
 geojson                0.3.5   CRAN      0.3.5   CRAN  [1]   indirect
 geojsonio             0.11.3   CRAN     0.11.3   CRAN  [1]   indirect
 geojsonsf              2.0.3   CRAN      2.0.3   CRAN  [1]   indirect
 geometries             0.2.4   CRAN      0.2.4   CRAN  [1]   indirect
-gert                   2.1.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 getPass                0.2-4   CRAN      0.2-4   CRAN  [1]   indirect
-ggmap                  4.0.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 ggplot2                4.0.0   CRAN      4.0.0   CRAN  [1]     direct
-ggpmisc                0.6.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ggpp                 0.5.8-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ggrepel                0.9.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gh                     1.5.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-gitcreds               0.1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 globals               0.18.0   CRAN     0.18.0   CRAN  [1]   indirect
 glue                   1.8.0   CRAN      1.8.0   CRAN  [1]   indirect
-gmm                      1.8   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 googledrive            2.1.2   CRAN      2.1.2   CRAN  [1]   indirect
 googlesheets4          1.1.2   CRAN      1.1.2   CRAN  [1]   indirect
 gower                  1.0.2   CRAN      1.0.2   CRAN  [1]   indirect
 grDevices               &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 graphics                &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 grid                    &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-gridExtra                2.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 gtable                 0.3.6   CRAN      0.3.6   CRAN  [1]   indirect
 hardhat                1.4.2   CRAN      1.4.2   CRAN  [1]   indirect
 haven                  2.5.5   CRAN      2.5.5   CRAN  [1]   indirect
 here                   1.0.2   CRAN      1.0.2   CRAN  [1]     direct
 hexbin                1.28.5   CRAN     1.28.5   CRAN  [1]     direct
 highr                   0.11   CRAN       0.11   CRAN  [1]   indirect
-hms                    1.1.3   CRAN      1.1.3   CRAN  [1]   indirect
+hms                    1.1.4   RSPM      1.1.3   CRAN  [1]   indirect
 htmltools            0.5.8.1   CRAN    0.5.8.1   CRAN  [1]   indirect
 htmlwidgets            1.6.4   CRAN      1.6.4   CRAN  [1]   indirect
 httpcode               0.3.0   CRAN      0.3.0   CRAN  [1]   indirect
-httpuv                1.6.16   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 httr                   1.4.7   CRAN      1.4.7   CRAN  [1]     direct
-httr2                  1.1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-hwsdr                    1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 ids                    1.0.1   CRAN      1.0.1   CRAN  [1]   indirect
 infer                  1.0.9   CRAN      1.0.9   CRAN  [1]   indirect
-ini                    0.3.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-insight                1.3.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 ipred                 0.9-15   CRAN     0.9-15   CRAN  [1]   indirect
 isoband                0.2.7   CRAN      0.2.7   CRAN  [1]   indirect
 iterators             1.0.14   CRAN     1.0.14   CRAN  [1]   indirect
-janitor                2.2.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-jpeg                  0.1-11   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 jqr                    1.4.0   CRAN      1.4.0   CRAN  [1]   indirect
 jquerylib              0.1.4   CRAN      0.1.4   CRAN  [1]   indirect
 jsonify                1.2.2   CRAN      1.2.2   CRAN  [1]   indirect
 jsonlite               2.0.0   CRAN      2.0.0   CRAN  [1]   indirect
-kableExtra             1.4.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 keyring                1.4.1   CRAN      1.4.1   CRAN  [1]   indirect
 knitr                   1.50   CRAN       1.50   CRAN  [1]     direct
 labeling               0.4.3   CRAN      0.4.3   CRAN  [1]   indirect
-languageserver        0.3.16   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-later                  1.4.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 lattice               0.22-7   CRAN     0.22-7   CRAN  [2]   indirect
-lava                   1.8.1   CRAN      1.8.1   CRAN  [1]   indirect
+lava                   1.8.2   CRAN      1.8.1   CRAN  [1]   indirect
 lazyeval               0.2.2   CRAN      0.2.2   CRAN  [1]   indirect
-leaf13C                0.2.2 GitHub       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 leaflet                2.2.3   CRAN      2.2.3   CRAN  [1]     direct
 leaflet.providers      2.0.0   CRAN      2.0.0   CRAN  [1]   indirect
 lhs                    1.2.0   CRAN      1.2.0   CRAN  [1]   indirect
 lifecycle              1.0.4   CRAN      1.0.4   CRAN  [1]   indirect
-lintr                  3.2.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-listenv                0.9.1   CRAN      0.9.1   CRAN  [1]   indirect
-lme4                  1.1-37   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lmodel2                1.7-4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-lmtest                0.9-40   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
+listenv               0.10.0   CRAN      0.9.1   CRAN  [1]   indirect
 lubridate              1.9.4   CRAN      1.9.4   CRAN  [1]   indirect
 magrittr               2.0.4   CRAN      2.0.4   CRAN  [1]   indirect
 memoise                2.0.1   CRAN      2.0.1   CRAN  [1]   indirect
 methods                 &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 mgcv                   1.9-3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
-microbenchmark         1.5.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 mime                    0.13   CRAN       0.13   CRAN  [1]   indirect
-miniUI                 0.1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-minqa                  1.2.8   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 modeldata              1.5.1   CRAN      1.5.1   CRAN  [1]   indirect
 modelenv               0.2.0   CRAN      0.2.0   CRAN  [1]   indirect
 modelr                0.1.11   CRAN     0.1.11   CRAN  [1]   indirect
-modeltools            0.2-24   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-msm                    1.8.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-multcomp              1.4-28   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-multcompView          0.1-10   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-multidplyr             0.1.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-mvtnorm                1.3-3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 ncdf4                   1.24   CRAN       1.24   CRAN  [1]   indirect
-ncmeta                 0.4.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 nlme                 3.1-168   CRAN    3.1-168   CRAN  [2]   indirect
-nloptr                 2.2.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 nnet                  7.3-20   CRAN     7.3-20   CRAN  [2]   indirect
 numDeriv          2016.8-1.1   CRAN 2016.8-1.1   CRAN  [1]   indirect
-numbers                0.8-5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 openssl                2.3.4   CRAN      2.3.4   CRAN  [1]   indirect
-openxlsx               4.2.8   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 pROC                1.19.0.1   CRAN   1.19.0.1   CRAN  [1]   indirect
 parallel                &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 parallelly            1.45.1   CRAN     1.45.1   CRAN  [1]   indirect
 parsnip                1.3.3   CRAN      1.3.3   CRAN  [1]     direct
 patchwork              1.3.2   CRAN      1.3.2   CRAN  [1]     direct
-pbkrtest               0.5.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-performance           0.14.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-phenocamr              1.1.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 pillar                1.11.1   CRAN     1.11.1   CRAN  [1]   indirect
-pkgbuild               1.4.8   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 pkgconfig              2.0.3   CRAN      2.0.3   CRAN  [1]   indirect
-pkgdown                2.1.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-pkgload                1.4.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-plotly                4.11.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 plyr                   1.8.9   CRAN      1.8.9   CRAN  [1]   indirect
 png                    0.1-8   CRAN      0.1-8   CRAN  [1]   indirect
-polynom                1.4-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-ppcor                    1.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-praise                 1.0.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 prettyunits            1.2.0   CRAN      1.2.0   CRAN  [1]   indirect
 processx               3.8.6   CRAN      3.8.6   CRAN  [1]   indirect
 prodlim           2025.04.28   CRAN 2025.04.28   CRAN  [1]   indirect
-profvis                0.4.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 progress               1.2.3   CRAN      1.2.3   CRAN  [1]   indirect
-progressr             0.16.0   CRAN     0.16.0   CRAN  [1]   indirect
-promises               1.3.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
+progressr             0.17.0   CRAN     0.16.0   CRAN  [1]   indirect
 protolite              2.3.1   CRAN      2.3.1   CRAN  [1]   indirect
 proxy                 0.4-27   CRAN     0.4-27   CRAN  [1]   indirect
 ps                     1.9.1   CRAN      1.9.1   CRAN  [1]   indirect
 purrr                  1.1.0   CRAN      1.1.0   CRAN  [1]     direct
-qgam                   2.0.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-qs                    0.27.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-quantreg                 6.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 ragg                   1.5.0   CRAN      1.5.0   CRAN  [1]   indirect
-ranger                0.17.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 rapidjsonr             1.2.0   CRAN      1.2.0   CRAN  [1]   indirect
 rappdirs               0.3.3   CRAN      0.3.3   CRAN  [1]   indirect
 raster                3.6-32   CRAN     3.6-32   CRAN  [1]   indirect
-rbibutils                2.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rcmdcheck              1.4.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 readr                  2.1.5   CRAN      2.1.5   CRAN  [1]     direct
 readxl                 1.4.5   CRAN      1.4.5   CRAN  [1]   indirect
 recipes                1.3.1   CRAN      1.3.1   CRAN  [1]   indirect
-reformulas             0.4.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 rematch                2.0.0   CRAN      2.0.0   CRAN  [1]   indirect
 rematch2               2.1.2   CRAN      2.1.2   CRAN  [1]   indirect
-remotes                2.5.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 renv                  0.17.3   CRAN     0.17.3   CRAN  [1]     direct
-repr                   1.1.7   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 reprex                 2.1.1   CRAN      2.1.1   CRAN  [1]   indirect
 reshape2               1.4.4   CRAN      1.4.4   CRAN  [1]   indirect
-rex                    1.2.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-rgeco                    0.9 GitHub       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 rlang                  1.1.6   CRAN      1.1.6   CRAN  [1]   indirect
 rmarkdown               2.30   CRAN       2.30   CRAN  [1]     direct
-rnaturalearth          1.0.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rnaturalearthdata      1.0.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-roxygen2               7.3.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 rpart                 4.1.24   CRAN     4.1.24   CRAN  [2]   indirect
-rpart.plot             3.1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-rpmodel                1.2.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 rprojroot              2.1.1   CRAN      2.1.1   CRAN  [1]   indirect
 rsample                1.3.1   CRAN      1.3.1   CRAN  [1]     direct
-rsofun            5.1.0.9000   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 rstudioapi            0.17.1   CRAN     0.17.1   CRAN  [1]   indirect
-rversions              2.1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 rvest                  1.0.5   CRAN      1.0.5   CRAN  [1]   indirect
 s2                     1.1.9   CRAN      1.1.9   CRAN  [1]   indirect
-sandwich               3.1-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 sass                  0.4.10   CRAN     0.4.10   CRAN  [1]   indirect
 scales                 1.4.0   CRAN      1.4.0   CRAN  [1]     direct
-scico                  1.5.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 selectr                0.4-2   CRAN      0.4-2   CRAN  [1]   indirect
-sensitivity           1.30.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sessioninfo            1.2.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 sf                    1.0-21   CRAN     1.0-21   CRAN  [1]     direct
 sfd                    0.1.0   CRAN      0.1.0   CRAN  [1]   indirect
 sfheaders              0.4.4   CRAN      0.4.4   CRAN  [1]   indirect
 shape                1.4.6.1   CRAN    1.4.6.1   CRAN  [1]   indirect
-shiny                 1.11.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-shinyjs                2.1.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 signal                 1.8-1   CRAN      1.8-1   CRAN  [1]     direct
-skimr                  2.1.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 slider                 0.3.2   CRAN      0.3.2   CRAN  [1]   indirect
-slippymath             0.3.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-snakecase             0.11.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-sourcetools          0.1.7-1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 sp                     2.2-0   CRAN      2.2-0   CRAN  [1]   indirect
 sparsevctrs            0.3.4   CRAN      0.3.4   CRAN  [1]   indirect
 spatial               7.3-18   CRAN       &lt;NA&gt;   &lt;NA&gt;  [2]       &lt;NA&gt;
 splines                 &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-splus2R                1.3-5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 stats                   &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 stats4                  &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
-storr                  1.2.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-stringfish            0.16.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 stringi                1.8.7   CRAN      1.8.7   CRAN  [1]   indirect
 stringr                1.5.2   CRAN      1.5.2   CRAN  [1]     direct
-styler                1.10.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 survival               3.8-3   CRAN      3.8-3   CRAN  [2]   indirect
-svglite                2.2.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 sys                    3.4.3   CRAN      3.4.3   CRAN  [1]   indirect
 systemfonts            1.3.1   CRAN      1.3.1   CRAN  [1]   indirect
 tailor                 0.1.0   CRAN      0.1.0   CRAN  [1]   indirect
 terra                 1.8-70   CRAN     1.8-70   CRAN  [1]     direct
-testthat               3.2.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 textshaping            1.0.4   CRAN      1.0.4   CRAN  [1]   indirect
 tibble                 3.3.0   CRAN      3.3.0   CRAN  [1]   indirect
-tictoc                 1.2.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 tidymodels             1.4.1   CRAN      1.4.1   CRAN  [1]     direct
 tidyr                  1.3.1   CRAN      1.3.1   CRAN  [1]     direct
 tidyselect             1.2.1   CRAN      1.2.1   CRAN  [1]   indirect
 tidyterra              0.7.2   CRAN      0.7.2   CRAN  [1]     direct
 tidyverse              2.0.0   CRAN      2.0.0   CRAN  [1]     direct
-timeDate            4041.110   CRAN   4041.110   CRAN  [1]   indirect
+timeDate            4051.111   CRAN   4041.110   CRAN  [1]   indirect
 timechange             0.3.0   CRAN      0.3.0   CRAN  [1]   indirect
 tinytex                 0.57   CRAN       0.57   CRAN  [1]   indirect
-tmvtnorm                 1.6   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 tools                   &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 triebeard              0.4.1   CRAN      0.4.1   CRAN  [1]   indirect
-tune                   2.0.0   CRAN      2.0.0   CRAN  [1]     direct
+tune                   2.0.1   CRAN      2.0.0   CRAN  [1]     direct
 tzdb                   0.5.0   CRAN      0.5.0   CRAN  [1]   indirect
 units                  1.0-0   CRAN      1.0-0   CRAN  [1]   indirect
-urlchecker             1.0.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 urltools             1.7.3.1   CRAN    1.7.3.1   CRAN  [1]   indirect
-usethis                3.1.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 utf8                   1.2.6   CRAN      1.2.6   CRAN  [1]   indirect
 utils                   &lt;NA&gt;   &lt;NA&gt;       &lt;NA&gt;   &lt;NA&gt;  [2]   indirect
 uuid                   1.2-1   CRAN      1.2-1   CRAN  [1]   indirect
 vctrs                  0.6.5   CRAN      0.6.5   CRAN  [1]   indirect
-viridis                0.6.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 viridisLite            0.4.2   CRAN      0.4.2   CRAN  [1]   indirect
-visdat                 0.6.0   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 vroom                  1.6.6   CRAN      1.6.6   CRAN  [1]     direct
-waldo                  0.6.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 warp                   0.2.1   CRAN      0.2.1   CRAN  [1]   indirect
-weathermetrics         1.2.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-webshot2               0.1.2   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-websocket              1.4.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-whisker                0.4.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
 withr                  3.0.2   CRAN      3.0.2   CRAN  [1]   indirect
 wk                     0.9.4   CRAN      0.9.4   CRAN  [1]   indirect
 workflows              1.3.0   CRAN      1.3.0   CRAN  [1]     direct
 workflowsets           1.1.1   CRAN      1.1.1   CRAN  [1]   indirect
-writexl                1.5.4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-xfun                    0.53   CRAN       0.53   CRAN  [1]   indirect
+xfun                    0.54   RSPM       0.53   CRAN  [1]   indirect
 xgboost             1.7.11.1   CRAN   1.7.11.1   CRAN  [1]     direct
-xml2                   1.4.0   CRAN      1.4.0   CRAN  [1]   indirect
-xmlparsedata           1.0.5   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-xopen                  1.0.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-xtable                 1.8-4   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
-xts                   0.14.1   CRAN       &lt;NA&gt;   &lt;NA&gt;  [3]       &lt;NA&gt;
+xml2                   1.4.1   CRAN      1.4.0   CRAN  [1]   indirect
 yaml                  2.3.10   CRAN     2.3.10   CRAN  [1]   indirect
 yardstick              1.3.2   CRAN      1.3.2   CRAN  [1]   indirect
-zip                    2.3.3   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
-zoo                   1.8-14   CRAN       &lt;NA&gt;   &lt;NA&gt;  [1]       &lt;NA&gt;
 
 [1]: /Users/faber/GitHub/geco-bern/handfull_of_pixels/renv/library/R-4.5/aarch64-apple-darwin20      
 [2]: /Users/faber/Library/Caches/org.R-project.R/R/renv/sandbox/R-4.5/aarch64-apple-darwin20/4cd76b74
-[3]: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library                            
 
 # ABI ================================
 * No ABI conflicts were detected in the set of installed packages.
@@ -774,7 +615,7 @@ List of 11
  $ vcs.manage.ignores       : logi TRUE
 
 # Options ============================
-List of 7
+List of 9
  $ defaultPackages                     : chr [1:6] "datasets" "utils" "grDevices" "graphics" ...
  $ download.file.method                : NULL
  $ download.file.extra                 : NULL
@@ -782,6 +623,8 @@ List of 7
  $ pkgType                             : chr "both"
  $ repos                               : Named chr "https://cloud.r-project.org"
   ..- attr(*, "names")= chr "CRAN"
+ $ renv.consent                        : logi TRUE
+ $ renv.project.path                   : chr "/Users/faber/GitHub/geco-bern/handfull_of_pixels"
  $ renv.verbose                        : logi TRUE
 
 # Environment Variables ==============
@@ -814,8 +657,8 @@ RENV_PROJECT                = /Users/faber/GitHub/geco-bern/handfull_of_pixels
 - /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
 - /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 - /opt/homebrew/bin
-- /usr/local/anaconda3/condabin
 - /usr/local/opt/openssl/bin
+- /usr/local/anaconda3/condabin
 - /Users/faber/.juliaup/bin
 - /opt/homebrew/sbin
 - /Applications/quarto/bin
@@ -825,7 +668,7 @@ RENV_PROJECT                = /Users/faber/GitHub/geco-bern/handfull_of_pixels
 - /Applications/RStudio.app/Contents/Resources/app/bin/postback
 
 # Cache ==============================
-There are a total of 202 packages installed in the renv cache.
+There are a total of 214 packages installed in the renv cache.
 Cache path: "~/Library/Caches/org.R-project.R/R/renv/cache/v5/R-4.5/aarch64-apple-darwin20"</code></pre>
 </div>
 </div>
