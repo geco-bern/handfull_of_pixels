@@ -267,6 +267,14 @@ validation_selection <- validation_selection |>
 ```
 ## For Exercises
 ```{r eval = FALSE}
+validation_selection <- readr::read_rds(
+  here::here("data/competition_selection.rds")
+);
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# and deposited on Zenodo.
+
 # see further below how to directly load train and 
 # test data (containing predictors and land-cover labels) 
 # from Zenodo. (Since this data is already prepared 
@@ -338,6 +346,11 @@ rs_request_batch(
 ```
 ## For Exercises
 ```{r eval = FALSE}
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# and deposited on Zenodo.
+
 # see further below how to directly load train and 
 # test data (containing predictors and land-cover labels) 
 # from Zenodo. (Since this data is already prepared 
@@ -416,6 +429,11 @@ ml_df <- left_join(nbar_wide, sites) |>
 ```
 ## For Exercises
 ```{r eval = FALSE}
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# and deposited on Zenodo.
+
 # see further below how to directly load train and 
 # test data (containing predictors and land-cover labels) 
 # from Zenodo. (Since this data is already prepared 
@@ -449,6 +467,12 @@ test <- rsample::testing(ml_df_split)
 ```
 ## For Exercises
 ```{r eval = FALSE}
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# and deposited on Zenodo.
+
+
 # see here how to directly load train and test data from Zenodo
 download.file(
   url = "https://zenodo.org/records/8298491/files/test_data.rds?download=1",     
