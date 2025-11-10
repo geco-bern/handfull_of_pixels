@@ -267,7 +267,8 @@ validation_selection <- validation_selection |>
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# see further below how to directly load train and 
+# test data from Zenodo (much quicker than AppEEARS)
 ```
 :::
 
@@ -335,7 +336,8 @@ rs_request_batch(
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# see further below how to directly load train and 
+# test data from Zenodo (much quicker than AppEEARS)
 ```
 :::
 
@@ -410,7 +412,8 @@ ml_df <- left_join(nbar_wide, sites) |>
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# see further below how to directly load train and 
+# test data from Zenodo (much quicker than AppEEARS)
 ```
 :::
 
@@ -440,7 +443,7 @@ test <- rsample::testing(ml_df_split)
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# see here how to directly load train and test data from Zenodo
 download.file(
   url = "https://zenodo.org/records/8298491/files/test_data.rds?download=1",     
   destfile = file.path(tempdir(), "test_data.rds"))
@@ -448,16 +451,22 @@ download.file(
   url = "https://zenodo.org/records/8298491/files/training_data.rds?download=1", 
   destfile = file.path(tempdir(), "training_data.rds"))
 
-test_data_Zenodo     <- readr::read_rds(file.path(tempdir(), "test_data.rds"))
-training_data_Zenodo <- readr::read_rds(file.path(tempdir(), "training_data.rds"))
+test_data_Zenodo     <- readr::read_rds(
+  file.path(tempdir(), "test_data.rds"))
+training_data_Zenodo <- readr::read_rds(
+  file.path(tempdir(), "training_data.rds"))
 
-# ensure training and test data set contain same predictor variables
-setdiff(names(training_data_Zenodo), names(test_data_Zenodo)) # pixelID, LC1, lat, lon
-setdiff(names(test_data_Zenodo),     names(training_data_Zenodo))
+# ensure training and test data contain same predictor variables
+setdiff(names(training_data_Zenodo), 
+        names(test_data_Zenodo)) # pixelID, LC1, lat, lon
+setdiff(names(test_data_Zenodo),     
+        names(training_data_Zenodo))
 
-train <- training_data_Zenodo |> select(-c(pixelID, lat, lon)) # remove ID, lat, lon
+train <- training_data_Zenodo |> 
+  select(-c(pixelID, lat, lon)) # remove ID, lat, lon
 test  <- test_data_Zenodo                                           
-# NOTE: for the competition column 'LC1' was removed from the test data
+# NOTE: for the competition, column 'LC1' was removed from the 
+#       test data
 ```
 :::
 
@@ -657,31 +666,37 @@ caret::confusionMatrix(
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# NOTE: for the competition column 'LC1' was removed from the test data
-#       so you can't compute the scores yourself.
+# NOTE: for the competition column 'LC1' was removed from 
+#       the test data. Thus you can't compute the scores 
+#       yourself.
 #       
-#       Instead upload your predictions with you best model as a pull request to
+#       Instead upload your predictions from your best 
+#       model as a pull request to
 #       https://github.com/geco-bern/agds2_course.
 #       
 #       To do so: 
 #       a) save your results as .*csv: 
            readr::write_csv(
-              x    = dplyr::rename(test_results, lulc_class = .pred_class),
+              x    = dplyr::rename(test_results, 
+                                   lulc_class = .pred_class),
               file = "~/Desktop/username_results.csv")
 #       a) fork the repository 'agds2_course', 
-#       b) add and commit your results as 'data/leaderboard/fall_2025/username_results.csv', 
-#       c) and open a pull request (PR) from your forked repository to the main 
-#          repository at 'geco-bern/agds2_course'.
+#       b) add and commit your results as 
+#          'data/leaderboard/fall_2025/username_results.csv', 
+#       c) and open a pull request (PR) from your forked 
+#          repository to the main repository at 
+#          'geco-bern/agds2_course'.
 #       
-#       Your predictions will then be added to the the leader board on the course 
-#       website at https://geco-bern.github.io/agds2_course/leaderboard_fall_2025.html
+#       Your predictions will then be added to the the leader 
+#       board on the course website at 
+#       https://geco-bern.github.io/agds2_course/leaderboard_fall_2025.html
 ```
 :::
 
 
 ### Model scaling
 
-To scale our new model to other locations, or regions we need to download additional data. I will demonstrate how to download geospatial data, rather than point data used during training, using the same {appeears} R package. This data will then be used to run our previously optimized model, and the results will be presented as a map. Since our workflow followed the original MODIS MCD12Q1 LULC map protocol I will compare both maps (this requires remapping some of the values from MODIS IGBP Land-Use and Land-Cover classes).
+To scale our new model to other locations, or regions we will below download additional data covering the region around Bern. The code below demonstrates how to download geospatial data, rather than point data used during training, using the same {appeears} R package. This data will then be used to run our previously trained model, and the results will be presented as a map. Since our workflow closely followed the first steps of the MODIS MCD12Q1 LULC map protocol we will compare our map to the final MODIS MCD12Q1 product. (Since we did not use exactly the same MODIS IGBP Land-Use and Land-Cover classes we need to perform some remapping before plotting.)
 
 #### Data download {.unnumbered}
 
