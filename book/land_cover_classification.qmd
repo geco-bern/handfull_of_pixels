@@ -102,7 +102,7 @@ In this example I use an unsupervised machine learning approach, called k-means 
 
 Here, we can use the `lai_2012` dataset we previously downloaded, but we'll use the raster representation as a starting point (as most geospatial data will come in multi-layer raster formats).
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # conversion from tidy data to a raster format
@@ -234,7 +234,7 @@ validation_sites <- readr::read_csv(
 
 I will restrict the number of validation sites to a manageable number of 150 random locations for each Land-Use or Land-Cover class, limited to high quality locations on the northern hemisphere (as we will apply our analysis regionally to Switzerland). The training data in @fritz_global_2017 contains data from different crowdsourcing competitions. Nr. 1 refers to Land-Use and nr. 4 to Land-Cover classes. The below routine shows how to gather 150 random locations for each Land-Use or Land-Cover class from @fritz_global_2017. The locations of this data will be used to train and test the supervised machine learning algorithm.
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # filter out data by competition,
@@ -287,7 +287,7 @@ The required MCD43A4 data is not readily available using the {MODISTools} R pack
 I refer to the {appears} documentation for the [setup and use of an API key](https://bluegreen-labs.github.io/appeears/articles/appeears_vignette.html). The instructions below assume you have registered and have a working key installed in your R session.
 :::
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # for every row download the data for this
@@ -346,7 +346,7 @@ AppEEARS downloads might take a while! In the code above the default directory i
 
 With both training and model validation data downloaded we can now train a supervised machine learning model! We do have to wrangle the data into a format that is acceptable for machine learning tools. In particular, we need to convert the data from a long format to a wide format (see @sec-tidy-pivots), where every row is a feature vector. The {vroom} package is used to efficiently read in a large amount of similar CSV files into a large dataframe using a single list of files (alternatively you can loop over and append files using base R).
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # list all MCD43A4 files, note that
@@ -418,7 +418,7 @@ ml_df <- left_join(nbar_wide, sites) |>
 
 This example will try to follow the original MODIS MCD12Q1 workflow closely which calls for a boosted regression classification approach [@Friedl2010]. This method allows for the use of a [combination of weak learners](https://en.wikipedia.org/wiki/Boosting_(machine_learning)) to be combined into a single robust ensemble classification models. The in depth discussion of the algorithm is beyond the scope of this course and I refer to specialized literature for more details. To properly evaluate or model we need to split our data in a true training dataset, and a test dataset. The test dataset will be used in the final model evaluation, where samples are independent of those contained within the training dataset [@boehmke_hands-machine_2020].
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # select packages
@@ -636,7 +636,7 @@ if(ON_GIT) {
 }
 
 ```
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r}
 #| warning: false
