@@ -100,13 +100,10 @@ Working of the concept as demonstrated in @fig-lai-dbf-snow we can use the spect
 
 In this example I use an unsupervised machine learning approach, called k-means clustering, to divide the dataset into two or more classes. These classes are clustered in a way which minimizes within-cluster variances, i.e. it ensures that pixels will look similar to each other (given a target number of clusters `k` to divide the dataset into).
 
-```{r include = FALSE}
-# load buffered data, not shown in render
-r <- terra::rast(here::here("../data/LAI.tiff"))
-```
-
 Here, we can use the `lai_2012` dataset we previously downloaded, but we'll use the raster representation as a starting point (as most geospatial data will come in multi-layer raster formats).
 
+::: {.panel-tabset group="book-exercise"}
+## For Book
 ```{r eval = FALSE}
 # conversion from tidy data to a raster format
 # as it is common to use raster data
@@ -115,8 +112,15 @@ r <- MODISTools::mt_to_terra(
   reproject = TRUE
   )
 ```
+## For Exercises
+```{r eval = TRUE}
+# load buffered data
+# that is stored in the data folder of the repo
+r <- terra::rast(here::here("../data/LAI.tiff"))
+```
+:::
 
-As a first step (ironically) I will convert this raster object back into a dataframe. However, this time it will be a wide data frame, where every pixel location is a row and every column a value for a given date (see @sec-basic-r). Alternatively, I could have converted the original `lai_2012` data frame from a long format into a wide format using `tidyr::pivot_wider()`. Every row, representing a year for a given location, is a [feature (vector)](https://en.wikipedia.org/wiki/Feature_(machine_learning)) which contains the information on which the k-means clustering algorithm will operate.
+As a first step (ironically) I will convert this raster object back into a dataframe, since this is the format expected by many machine learning packages. However, this time it will be a wide data frame, where every pixel location is a row and every column a value for a given date (see @sec-basic-r). Alternatively, I could have converted the original `lai_2012` data frame from a long format into a wide format using `tidyr::pivot_wider()`. Every row, representing a year for a given location, is a [feature (vector)](https://en.wikipedia.org/wiki/Feature_(machine_learning)) which contains the information on which the k-means clustering algorithm will operate.
 
 ```{r}
 # convert a multi-layer raster image
@@ -125,16 +129,16 @@ df <- as.data.frame(r, cell = TRUE)
 
 # the content of a single feature (vector)
 # limited to the first 5 values for brevity
-print(df[1,1:5])
+print(df[1:3,1:5])
 ```
 
 We can now use the `kmeans()` algorithm to classify the data into two distinct groups or centers (k = 2). Note that we drop the first column from our dataframe as this contains the pixel indices, which are needed later on.
 
 ```{r}
-# cluster the data 
+# cluster the data into k classes
 clusters <- kmeans(
-  df[,-1],
-  centers = 2
+  df[,-1],     # -1 removes column 'cell'
+  centers = 2  # setting k to 2
 )
 ```
 
@@ -230,6 +234,8 @@ validation_sites <- readr::read_csv(
 
 I will restrict the number of validation sites to a manageable number of 150 random locations for each Land-Use or Land-Cover class, limited to high quality locations on the northern hemisphere (as we will apply our analysis regionally to Switzerland). The training data in @fritz_global_2017 contains various crowdsourcing competitions of which nr. 1 refers to land-use and nr. 4 to land-cover classes. The below routine shows how to gather 150 random locations for each Land-Use or Land-Cover class from @fritz_global_2017. The locations of this data will be used to train and test the supervised machine learning algorithm.
 
+::: {.panel-tabset group="book-exercise"}
+## For Book
 ```{r eval = FALSE}
 # filter out data by competition,
 # coverage percentage and latitude
@@ -259,6 +265,11 @@ validation_selection <- validation_selection |>
     dplyr::group_by(LC1) |>
     dplyr::group_split()
 ```
+## For Exercises
+```{r eval = FALSE}
+# see further below how to directly load train and test data from Zenodo
+```
+:::
 
 ::: callout-note
 ### Note
@@ -276,6 +287,8 @@ The required MCD43A4 data is not readily available using the {MODISTools} R pack
 I refer to the {appears} documentation for the [setup and use of an API key](https://bluegreen-labs.github.io/appeears/articles/appeears_vignette.html). The instructions below assume you have registered and have a working key installed in your R session.
 :::
 
+::: {.panel-tabset group="book-exercise"}
+## For Book
 ```{r eval = FALSE}
 # for every row download the data for this
 # location and the specified reflectance
@@ -320,7 +333,11 @@ rs_request_batch(
   time_out = 28800
 )
 ```
-
+## For Exercises
+```{r eval = FALSE}
+# see further below how to directly load train and test data from Zenodo
+```
+:::
 
 ::: callout-note
 ### Note
@@ -329,13 +346,15 @@ AppEEARS downloads might take a while! In the code above the default directory i
 
 With both training and model validation data downloaded we can now train a supervised machine learning model! We do have to wrangle the data into a format that is acceptable for machine learning tools. In particular, we need to convert the data from a long format to a wide format (see @sec-tidy-pivots), where every row is a feature vector. The {vroom} package is used to efficiently read in a large amount of similar CSV files into a large dataframe using a single list of files (alternatively you can loop over and append files using base R).
 
+::: {.panel-tabset group="book-exercise"}
+## For Book
 ```{r eval = FALSE}
 # list all MCD43A4 files, note that
 # that list.files() uses regular
-# expressions when using wildcards
-# such as *, you can convert general
-# wildcard use to regular expressions
-# with glob2rx()
+# expressions. Thus when using wildcards
+# such as *, you can use glob2rx() to 
+# convert these wildcards to regular 
+# expressions
 files <- list.files(
   tempdir(),
   glob2rx("*MCD43A4-061-results*"),
@@ -389,11 +408,18 @@ ml_df <- left_join(nbar_wide, sites) |>
     contains("band")
   )
 ```
+## For Exercises
+```{r eval = FALSE}
+# see further below how to directly load train and test data from Zenodo
+```
+:::
 
 ### Model training
 
 This example will try to follow the original MODIS MCD12Q1 workflow closely which calls for a boosted regression classification approach [@Friedl2010]. This method allows for the use of a [combination of weak learners](https://en.wikipedia.org/wiki/Boosting_(machine_learning)) to be combined into a single robust ensemble classification models. The in depth discussion of the algorithm is beyond the scope of this course and I refer to specialized literature for more details. To properly evaluate or model we need to split our data in a true training dataset, and a test dataset. The test dataset will be used in the final model evaluation, where samples are independent of those contained within the training dataset [@boehmke_hands-machine_2020].
 
+::: {.panel-tabset group="book-exercise"}
+## For Book
 ```{r eval = FALSE}
 # select packages
 # avoiding tidy catch alls
@@ -412,6 +438,28 @@ ml_df_split <- ml_df |>
 train <- rsample::training(ml_df_split)
 test <- rsample::testing(ml_df_split)
 ```
+## For Exercises
+```{r eval = FALSE}
+# see further below how to directly load train and test data from Zenodo
+download.file(
+  url = "https://zenodo.org/records/8298491/files/test_data.rds?download=1",     
+  destfile = file.path(tempdir(), "test_data.rds"))
+download.file(
+  url = "https://zenodo.org/records/8298491/files/training_data.rds?download=1", 
+  destfile = file.path(tempdir(), "training_data.rds"))
+
+test_data_Zenodo     <- readr::read_rds(file.path(tempdir(), "test_data.rds"))
+training_data_Zenodo <- readr::read_rds(file.path(tempdir(), "training_data.rds"))
+
+# ensure training and test data set contain same predictor variables
+setdiff(names(training_data_Zenodo), names(test_data_Zenodo)) # pixelID, LC1, lat, lon
+setdiff(names(test_data_Zenodo),     names(training_data_Zenodo))
+
+train <- training_data_Zenodo |> select(-c(pixelID, lat, lon)) # remove ID, lat, lon
+test  <- test_data_Zenodo                                           
+# NOTE: for the competition column 'LC1' was removed from the test data
+```
+:::
 
 With both a true training and testing dataset in place we can start to implement our supervised machine learning model. I will use a "tidy" machine learning modelling approach. Similar to the data management practices described in @sec-basic-r, a tidy modelling approach relies mostly on sentence like commands using a pipe (|>) and workflows (recipes). This makes formulating models and their evaluation more intuitive for many. For an in depth discussion on [tidy modelling](https://www.tmwr.org/) in R I refer to @kuhn_tidy_2022. Now, let's get started.
 
@@ -581,14 +629,17 @@ test <- readRDS(here::here("../data/test_data.rds"))
 if(ON_GIT) {
   LC1 <- Sys.getenv("LULC")
   LC1 <- as.numeric(unlist(strsplit(LC1, "\r\n")))
-  test$LC1 <- LC1
+  test$LC1 <- LC1 # use hidden test labels 
 } else {
-  test$LC1 <- sample(1:10, nrow(test), replace = TRUE)
+  test$LC1 <- sample(1:10, nrow(test), replace = TRUE) # generate a random prediction
+  test$LC1 <- read.csv(here::here("../../handfull_of_pixels_LULC.txt"))$lulc_class # use hidden test labels
 }
 
 ```
-
+::: {.panel-tabset group="book-exercise"}
+## For Book
 ```{r}
+#| warning: false
 # run the model on our test data
 # using predict()
 test_results <- predict(xgb_best_model, test)
@@ -604,6 +655,29 @@ caret::confusionMatrix(
   data = as.factor(test_results$.pred_class)
   )
 ```
+## For Exercises
+```{r eval = FALSE}
+# NOTE: for the competition column 'LC1' was removed from the test data
+#       so you can't compute the scores yourself.
+#       
+#       Instead upload your predictions with you best model as a pull request to
+#       https://github.com/geco-bern/agds2_course.
+#       
+#       To do so: 
+#       a) save your results as .*csv: 
+           readr::write_csv(
+              x    = dplyr::rename(test_results, lulc_class = .pred_class),
+              file = "~/Desktop/username_results.csv")
+#       a) fork the repository 'agds2_course', 
+#       b) add and commit your results as 'data/leaderboard/fall_2025/username_results.csv', 
+#       c) and open a pull request (PR) from your forked repository to the main 
+#          repository at 'geco-bern/agds2_course'.
+#       
+#       Your predictions will then be added to the the leader board on the course 
+#       website at https://geco-bern.github.io/agds2_course/leaderboard_fall_2025.html
+```
+:::
+
 
 ### Model scaling
 
