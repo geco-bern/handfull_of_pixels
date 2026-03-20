@@ -633,9 +633,9 @@ In machine learning model evaluation can be achieved in various ways and the sta
 
 #### Confusion matrix and metrics {.unnumbered}
 
-In the case of Land-Use and Land-Cover mapping classifications results are often reported as an confusion matrix and their associated metrics. The confusion matrix tells us something about accuracy (as perceived by users or producers), while the overall accuracy and Kappa coefficient allows us the compare the accuracy across modelled (map) results. 
+In the case of Land-Use and Land-Cover mapping classifications results are often reported as an confusion matrix and their associated metrics. The confusion matrix tells us something about accuracy (as perceived by users or producers), while the overall accuracy and Kappa coefficient allow us to compare the accuracy across modelled (map) results. 
 
-In (@tbl-confusion-matrix) a three class confusion matrix is shown with the model prediction in rows and the reference (real) classes in columns. In addition, the user and producer accuracies are shown. The user accuracy is the fraction of correctly predicted classes with respect to the false positives (Type I) errors for a given class. For example, among the reference sites that were predicted as class one (1) some were actually class two or three (2,3). The model committed the wrong label (1) to these sites. These false positives are therefore also called commission errors. Imagine a user of a prediction map is interested in a specific pixel that was predicted as class one (1), the user accuracy thus estimates how accurate this attribution to class one is. Similarly, imagine a producer (you) of a prediction map. Unlike the user, you do have access to the reference data and wonder for all your reference points of e.g. class one (1), how many got predicted correctly. The producer accuracy is the fraction of correctly predicted classes with respect to the false negative (Type II) errors for a given reference class. For example, for all sites identified as class 1 in the reference data, some were predicted as class 2 and 3 by the model. These sites were omitted from the correct class and are thus also called omission errors. In short, in remote sensing, the Type I and II errors are rephrased as the perspective taken during the assessment, either the user or the producer. In a strict machine learning context the user and producer accuracy would be called precision and recall, respectively. I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an in depth discussion on machine learning model evaluation.
+In @tbl-confusion-matrix a three class confusion matrix is shown with the model prediction in rows and the reference (real) classes in columns. In addition, the user and producer accuracies are shown. The user accuracy is the fraction of correctly predicted classes with respect to the false positives (Type I) errors for a given prediction class. The producer accuracy is the fraction of correctly predicted classes with respect to the false negatives (Type II) errors for a given reference class. 
 
 |   | Ref. 1  |  Ref. 2 | Ref. 3  | total | User accuracy (Type I) | Kappa  |
 |---|---|---|---|---|---|---|
@@ -648,7 +648,19 @@ In (@tbl-confusion-matrix) a three class confusion matrix is shown with the mode
 
 : Confusion matrix with classification results from top to bottom, reference results from left to right. Results show the labels (1-3) and their respective false positive and negative results. {#tbl-confusion-matrix}
 
-Simple confusion matrices can be calculated using R using the `table` function comparing the true reference labels with the predicted values for our model.
+::: callout-note
+### Note
+In other words:
+
+User accuracy: For example, among the sites that were predicted as class one (1) (first row) some were actually class two or three (2,3). The model committed the wrong label (1) to these sites. These false positives are therefore also called commission errors. Imagine a user of a prediction map is interested in a specific pixel that was predicted as class one (1), the user accuracy thus estimates how accurate this attribution to class one is. 
+
+Producer accuracy: Similarly, imagine a producer of a prediction map. Unlike the user, the producer has access to the reference data and wonders e.g. for all reference points of class one (1) (first column), how many got predicted correctly. For example, for all sites identified as class 1 in the reference data, some were predicted as class 2 and 3 by the model. These sites were omitted from the correct class and are thus also called omission errors. 
+
+In short, in remote sensing, the Type I and II errors are rephrased as the perspective taken during the assessment, either the user or the producer. In a strict machine learning context the user and producer accuracy would be called precision and recall, respectively. I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an in depth discussion on machine learning model evaluation. Also these online answers ([[1]](https://stats.stackexchange.com/a/82187), [[2]](https://stats.stackexchange.com/a/124019)) additionally explain the kappa statistic.
+:::
+
+
+Simple confusion matrices can be calculated using R using the `table()` function comparing the true reference labels with the predicted values for our model. Using the function `caret::confusionMatrix()` gives directly additional overall- and by-class- statistics as shown below:
 
 ```{r include = FALSE}
 # saveRDS(bundle::bundle(xgb_best_model), here::here("../data/xgboost_model_bundled.rds"), compress = "xz")
