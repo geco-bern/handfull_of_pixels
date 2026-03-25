@@ -55,11 +55,11 @@ Use details in @sec-accessing-data, @sec-geospatial and @sec-phenology-trends to
 
 :::
 
-### Scaling the calculation of phenology metrics
+### Scaling the calculation of phenology metrics (optional for Geoprocessing III 2026)
 
 In this exercise you will be required to download external data manually. First you will have to sign up for a [NASA EarthData login](https://www.earthdata.nasa.gov/) to access the required data. The NASA EarthData login provides access to a wide range of data products.
 
-Once signed in, [download the data MCD13C1 product](https://lpdaac.usgs.gov/products/mod13c1v006/) for the year 2022. The MCD13C1 product provides vegetation indices (VI), such as the Enhanced Vegetation Index (EVI) and Normalized Difference Vegetation Index (NDVI) data products on a down-sampled climate model grid (CMG, at 0.05$^\circ$ or ~5km resolution). This down-sampled data product reduces the volume of data to download and process, but should allow you to explore broad continental scale patterns when calculating vegetation (or land surface) phenology metrics.
+Once signed in, [download the data MOD13C1 product](https://www.earthdata.nasa.gov/data/catalog/lpcloud-mod13c1-061) for the year 2022. The MOD13C1 product provides vegetation indices (VI), such as the Enhanced Vegetation Index (EVI) and Normalized Difference Vegetation Index (NDVI) data products on a down-sampled climate model grid (CMG, at 0.05$^\circ$ or ~5km resolution, compared to e.g. the MOD13Q1 product with higher resolution of 250m). This down-sampled data product reduces the volume of data to download and process (~2.4GB for a single year), but should allow you to explore broad continental scale patterns when calculating vegetation (or land surface) phenology metrics.
 
 With all data downloaded:
 
@@ -85,7 +85,7 @@ All information for this exercise can be found in @sec-geospatial and @sec-algor
 
 :::
 
-## Phenology modelling
+## Phenology modelling (not included in Geoprocessing III 2026)
 
 - How can you improve the model used to regionally scale the results in @sec-phenology-modelling? 
   - Provide at least three (3) ways to improve the model used.
@@ -95,7 +95,7 @@ All information for this exercise can be found in @sec-geospatial and @sec-algor
   - describe why you might or might not see the same patterns
   - consider that 2010 was a 'special' year for the north east of the US
 
-## Land-Use and Land-Cover modelling
+## Land-Use and Land-Cover modelling (not included in Geoprocessing III 2026)
 
 - How can you improve the model used to map LULC? 
   - Provide at least four (4) ways to improve the model used.
