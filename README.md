@@ -11,3 +11,15 @@ This book is proudly GPT free, mistakes are my own.
 The original course can be found [here](https://github.com/bluegreen-labs/handful_of_pixels), of which this is a subset.
 
 ![](https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png)
+
+
+## Rendering and publishing
+
+Quarto books can be rendered and published either manually or then via GitHub actions.
+This book here requires manual rendering and publishing.
+For publishing, ensure the name of the git remote is "origin", then:
+```
+cd GitHub/geco-bern/handfull_of_pixels
+quarto render book --cache-refresh --execute-dir="book"
+quarto publish book
+```
