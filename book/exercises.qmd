@@ -15,15 +15,17 @@ Interpret the results of @sec-regression and the fit model as shown in the colla
 
 ### Temporal and spatial anomalies
 
-For a location near the Adirondacks in the North-Eastern United States (@fig-leaflet-adirondacks) gather phenology data on both the day of greenup and the day of maximum canopy development of a location centered on 43.5$^\circ$N and 74.5$^\circ$W. 
-Use a product that directly provides these quantities.
-Gather data for all pixels 100 km around this location for years 2001 to 2010. 
+For a location near the Adirondacks in the North-Eastern United States (@fig-leaflet-adirondacks) gather phenology data on both i) the day of greenup and ii) the day of maximum canopy development. 
+Use a product that directly provides both of these quantities.
+Gather data for all pixels 100 km around this location (centered on 43.5$^\circ$N and 74.5$^\circ$W) for years 2001 to 2010. 
 Ensure you have the right region, e.g. by plotting it `terra::plot(your_raster)`.
 Similarly, download land cover data for the year 2010 for the same spatial extent, and only consider IGBP broadleaf and mixed forest classes in your analysis.
 
-For the years 2001 - 2009 calculate the long term mean (LTM) and standard deviation (SD) of the phenology metrics. Calculate location with an early greenup for 2010 (< LTM - 1 SD) and locations with late maturity (> LTM + 1 SD).
+For the years 2001 - 2009 calculate the long term mean (LTM) and standard deviation (SD) of the phenology metrics for each pixel. 
+Calculate locations with an early greenup for 2010 (< LTM - 1 SD) and locations with late maturity (> LTM + 1 SD).
 
-Describe the observed patterns and speculate about the underlying reasons. In addition, download a digital elevation map for the United States (30s resolution), and compare differences in altitude (e.g. a boxplot) across locations where you do or do not see any patterns in phenology.
+Describe the observed patterns and speculate about the underlying reasons. 
+In addition, download a digital elevation map for the United States (30s resolution), and compare differences in altitude (e.g. a boxplot) across locations where you do or do not see any patterns in phenology.
  
 ```{r echo=FALSE}
 #| label: fig-leaflet-adirondacks
