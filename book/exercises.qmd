@@ -57,7 +57,7 @@ Use details in @sec-accessing-data, @sec-geospatial and @sec-phenology-trends to
 
 :::
 
-### Scaling the calculation of phenology metrics (optional for Geoprocessing III 2026)
+### Scaling the calculation of phenology metrics
 
 In this exercise you will be required to download external data manually. First you will have to sign up for a [NASA EarthData login](https://www.earthdata.nasa.gov/) to access the required data. The NASA EarthData login provides access to a wide range of data products.
 
@@ -87,7 +87,7 @@ All information for this exercise can be found in @sec-geospatial and @sec-algor
 
 :::
 
-## Phenology modelling (not included in Geoprocessing III 2026)
+## Phenology modelling
 
 - How can you improve the model used to regionally scale the results in @sec-phenology-modelling? 
   - Provide at least three (3) ways to improve the model used.
@@ -97,7 +97,7 @@ All information for this exercise can be found in @sec-geospatial and @sec-algor
   - describe why you might or might not see the same patterns
   - consider that 2010 was a 'special' year for the north east of the US
 
-## Land-Use and Land-Cover modelling (not included in Geoprocessing III 2026)
+## Land-Use and Land-Cover modelling
 
 - How can you improve the model used to map LULC? 
   - Provide at least four (4) ways to improve the model used.
