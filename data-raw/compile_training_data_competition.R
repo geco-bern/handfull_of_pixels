@@ -13,7 +13,7 @@ sites <- readRDS("data/competition_selection.rds") |>
 
 #---- read in NBAR data ----
 files <- list.files(
-  "data/lulc_competition/nbar/",
+  "data/lulc_competition_2025/nbar/",
   glob2rx("*MCD43A4-061-results*"),
   recursive = TRUE,
   full.names = TRUE
@@ -38,7 +38,7 @@ nbar_wide<- nbar |>
 
 #---- read in LST data ----
 files <- list.files(
-  "data/lulc_competition/lst/",
+  "data/lulc_competition_2025/lst/",
   glob2rx("*MOD11A2-061-results*"),
   recursive = TRUE,
   full.names = TRUE
@@ -76,7 +76,7 @@ df <- left_join(df, lst_wide)
 # save the data
 saveRDS(
   df,
-  "data/complete_competition_data.rds",
+  "data/complete_competition2025_data.rds",
   compress = "xz"
 )
 

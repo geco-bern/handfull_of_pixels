@@ -102,7 +102,7 @@ In this example I use an unsupervised machine learning approach, called k-means 
 
 Here, we can use the `lai_2012` dataset we previously downloaded, but we'll use the raster representation as a starting point (as most geospatial data will come in multi-layer raster formats).
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # conversion from tidy data to a raster format
@@ -175,8 +175,8 @@ palcol <- colorFactor(
 
 # build the leaflet map
 leaflet() |> 
-  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addProviderTiles(providers$Esri.WorldTopoMap, group = "World Topo") |>
+  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addRasterImage(
     kmeans_map,
     colors = palcol,
@@ -185,7 +185,7 @@ leaflet() |>
     group = "k-means cluster results"
     ) |>
   addLayersControl(
-    baseGroups = c("World Imagery","World Topo"),
+    baseGroups = c("World Topo","World Imagery"),
     position = "topleft",
     options = layersControlOptions(collapsed = FALSE),
     overlayGroups = c("k-means cluster results")
@@ -198,15 +198,16 @@ leaflet() |>
     )
 ```
 
-As the example uses an unsupervised classification we do not know what land cover types are included in this map. The model that we generate is therefore purely data informed, and not validated against external known Land-Use and Land-Cover locations. However, a quick visual inspection shows that for a `k` of 2 the split between the clusters divides vegetation from glaciers, water bodies, and urban areas (@fig-kmeans-map). The (seasonal) differences in LAI were used in the k-means analysis to minimize the (seasonal) variance between pixels. In particular, our analysis with two classes separates areas with a seasonal dynamic from those without one. Although the k-means algorithm is fast it only has one parameter which can shape the outcome of algorithm (i.e. `k`). The model is therefore too inflexible for more complex classification tasks. Moreover, the k-means model is rarely used as a scalable solution to generate maps based upon **in-situ** validation data, since this requires supervised machine learning (see below).
+As the example uses an unsupervised classification we do not know what land cover types are included in this map. The model that we generate is therefore purely data informed, and not validated against external known Land-Use and Land-Cover locations. However, a quick visual inspection shows that for a `k` of 2 the split between the clusters divides vegetation from glaciers, water bodies, and urban areas (@fig-kmeans-map). The (seasonal) differences in LAI were used in the k-means analysis to minimize the (seasonal) variance between pixels. In particular, our analysis with two classes separates areas with a seasonal dynamic from those without one. Although the k-means algorithm is fast it only has one parameter which can shape the outcome of algorithm (i.e. `k`). The model is therefore too inflexible for more complex classification tasks. Moreover, the k-means model is rarely used as a scalable solution to generate maps based upon **in-situ** reference labels. Approaches using reference labels are part of supervised machine learning (see example below).
 
-In this example I used an index, i.e. LAI, which does not provide sufficient information to distinguish between more subtle Land-Use or Land-Cover classes (e.g. evergreen forests and or mixed forest types). In short, a better approach would use more data and a more sophisticated model approach to create an informed model which scales easily to different land cover types and new locations.
+In the above example I used a single index, i.e. LAI, which does not provide sufficient information to distinguish between more subtle Land-Use or Land-Cover classes (e.g. evergreen forests and or mixed forest types). In short, a better approach would use more data and a more sophisticated model approach to create an informed model which scales easily to different land cover types and new locations.
+
 
 ## Supervised machine learning
 
-In contrast to k-means, one can use supervised classification of data where reference data is used as a benchmark on which to train a machine learning algorithm. A supervised machine learning algorithm will try to minimize the classification error on a known training or validation dataset. The methodology, model complexity and parameters are dependent on the provided data, the complexity of the problem and at times the available computational resources.
+In contrast to k-means, one can use supervised classification of data where reference data is used as labels on which to train a machine learning algorithm. A supervised machine learning algorithm will try to minimize the classification error on a known training or testing dataset. The methodology, model complexity and parameters are dependent on the provided data, the complexity of the problem and the available computational resources.
 
-For example the creation of the MODIS land-cover and land-use product (MCD12Q2) uses >1500 validation locations, three years of temporal data and a variety of multiple spectral bands, as well as ancillary data (topography, view angle geometry) to train their boosted classification tree [@Friedl2002; @Friedl2010]. In the below example I will try to recreate a part of the MCD12Q2 LULC workflow (red boxes, @fig-classification-workflow). A full introduction to machine learning is beyond the scope of this course and I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an introduction in machine learning using R.
+For example the creation of the MODIS land-cover and land-use product (MCD12Q2) uses >1500 reference locations, three years of temporal data and a variety of multiple spectral bands, as well as ancillary data (topography, view angle geometry) to train their boosted classification tree [@Friedl2002; @Friedl2010]. In the below example I will try to recreate a part of the MCD12Q2 LULC workflow (red boxes, @fig-classification-workflow). A full introduction to machine learning is beyond the scope of this course and I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an introduction in machine learning using R.
 
 ```{r}
 #| label: fig-classification-workflow
@@ -217,24 +218,23 @@ For example the creation of the MODIS land-cover and land-use product (MCD12Q2) 
 knitr::include_graphics("./images/Friedl_2010.svg")
 ```
 
-### Validation data
+### Ground truth reference data
 
-Critical in our exercise is the reference data we use to classify different Land-Use and Land-Cover types with. Generally ground truth data is used in order to create a training dataset. This ground truth data are locations which are visually validated to belong to a particular Land-Use or Land-Cover class. These data are gathered by *in-situ* surveys, or leverage high(er) resolution data and visual interpretation to confirm the the Land-Use or Land-Cover type. 
+Critical in our exercise is the reference data we use to classify different Land-Use and Land-Cover types with. Generally ground truth data is used in order to create training and testing datasets. This ground truth data are locations which are visually validated to belong to a particular Land-Use or Land-Cover class. These data are gathered by *in-situ* surveys, or leverage high(er) resolution data and visual interpretation to confirm the the Land-Use or Land-Cover type. 
 
-For example, the LUCAS database of the European Commission Joint Research Center provides three-yearly survey data on the Land-Use and Land-Cover state [@dandrimont_harmonised_2020], while the Geo-Wiki project used crowdsourcing to confirm Land-Use and Land-Cover types using high resolution remote sensing imagery [@fritz_global_2017]. Other products use in house databases using similar approaches [@Friedl2010]. In this example, I will rely on the freely available crowdsourced (Geo-Wiki) dataset [@fritz_global_2017]. These validation labels differ slightly from the International Geosphere-Biosphere Programme (IGBP) classes used in the MCD12Q1 product. Nevertheless, the general principles are the same.
+For example, the LUCAS database of the European Commission Joint Research Center provides three-yearly survey data on the Land-Use and Land-Cover state [@dandrimont_harmonised_2020], while the Geo-Wiki project used crowdsourcing to confirm Land-Use and Land-Cover types using high resolution remote sensing imagery [@fritz_global_2017]. Other products use in house databases using similar approaches [@Friedl2010]. In this example, I will rely on the freely available crowdsourced (Geo-Wiki) dataset [@fritz_global_2017]. These ground truth labels differ slightly from the International Geosphere-Biosphere Programme (IGBP) classes used in the MCD12Q1 product. Nevertheless, the general principles are the same.
 
 ```{r eval = FALSE}
-# Read the validation sites from
-# Fritz et al. 2017 straight from
-# Zenodo.org
+# Read the reference (validation) sites from
+# Fritz et al. 2017 straight from Zenodo.org
 validation_sites <- readr::read_csv(
   "https://zenodo.org/record/6572482/files/Global%20LULC%20reference%20data%20.csv?download=1"
 )
 ```
 
-I will restrict the number of validation sites to a manageable number of 150 random locations for each Land-Use or Land-Cover class, limited to high quality locations on the northern hemisphere (as we will apply our analysis regionally to Switzerland). The training data in @fritz_global_2017 contains data from different crowdsourcing competitions. Nr. 1 refers to Land-Use and nr. 4 to Land-Cover classes. The below routine shows how to gather 150 random locations for each Land-Use or Land-Cover class from @fritz_global_2017. The locations of this data will be used to train and test the supervised machine learning algorithm.
+I will restrict the number of reference validation sites to a manageable number of 150 random locations for each Land-Use or Land-Cover class, limited to high quality locations on the northern hemisphere (as we will apply our analysis regionally to Switzerland). The ground truth data in @fritz_global_2017 contains data from different crowdsourcing competitions. Nr. 1 refers to Land-Use and nr. 4 to Land-Cover classes. The below routine shows how to gather 150 random locations for each Land-Use or Land-Cover class from @fritz_global_2017. The locations of this data will be used to train and test the supervised machine learning algorithm.
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # filter out data by competition,
@@ -257,7 +257,7 @@ set.seed(0)
 validation_selection <- validation_selection |>
     dplyr::slice_sample(n = 150, by = LC1)
 
-# split validation selection
+# split reference selection
 # by land cover type into a nested
 # list, for easier processing
 # later on
@@ -267,7 +267,19 @@ validation_selection <- validation_selection |>
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+validation_selection <- readr::read_rds(
+  here::here("data/competition_selection.rds")
+);
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
+# and deposited on Zenodo.
+
+# see further below how to directly load train and 
+# test data (containing predictors and land-cover labels) 
+# from Zenodo. (Since this data is already prepared 
+# it is much quicker than the download with AppEEARS.)
 ```
 :::
 
@@ -278,7 +290,7 @@ The samples are generated randomly, although a random seed ensures some reproduc
 
 ### Multi-spectral training data
 
-As with our k-means clustering example we need data to inform our supervised classification. The MODIS data product MCD43A4 provides daily multi-spectral data, which is corrected for (geometric) view angle effects between the satellite and the sun. In below example in the interest of time, we gather data for only four spectral bands (1 to 4) from the MCD43A4 data product. This is a subset of what is used in the formal MCD12Q1 LULC product.
+As with our k-means clustering example we need predictor data to inform our supervised classification. The MODIS data product MCD43A4 provides daily multi-spectral data, which is corrected for (geometric) view angle effects between the satellite and the sun. In below example in the interest of time, we gather data for only four spectral bands (1 to 4) from the MCD43A4 data product. This is a subset of what is used in the formal MCD12Q1 LULC product.
 
 The required MCD43A4 data is not readily available using the {MODISTools} R package, as previously introduced, and I will therefore rely on the [{appears} R package](https://bluegreen-labs.github.io/appeears) [@hufkens_bluegreen-labsappeears_2023] to query and download training data. The {appears} package relies on the NASA AppEEARS API service which provides easy access to remote sensing data subsets similar to the ORNL DAAC service, as used by {MODISTools}. The provided data covers more data products, but does require a login (API key) limiting ad-hoc accessibility.
 
@@ -287,7 +299,7 @@ The required MCD43A4 data is not readily available using the {MODISTools} R pack
 I refer to the {appears} documentation for the [setup and use of an API key](https://bluegreen-labs.github.io/appeears/articles/appeears_vignette.html). The instructions below assume you have registered and have a working key installed in your R session.
 :::
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # for every row download the data for this
@@ -335,7 +347,16 @@ rs_request_batch(
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
+# and deposited on Zenodo.
+
+# see further below how to directly load train and 
+# test data (containing predictors and land-cover labels) 
+# from Zenodo. (Since this data is already prepared 
+# it is much quicker than the download with AppEEARS.)
 ```
 :::
 
@@ -344,9 +365,9 @@ rs_request_batch(
 AppEEARS downloads might take a while! In the code above the default directory is also set to the temporary directory. To use the above code make sure to change the download path to a more permanent one.
 :::
 
-With both training and model validation data downloaded we can now train a supervised machine learning model! We do have to wrangle the data into a format that is acceptable for machine learning tools. In particular, we need to convert the data from a long format to a wide format (see @sec-tidy-pivots), where every row is a feature vector. The {vroom} package is used to efficiently read in a large amount of similar CSV files into a large dataframe using a single list of files (alternatively you can loop over and append files using base R).
+With both training and reference data downloaded we can now train a supervised machine learning model! We do have to wrangle the data into a format that is acceptable for machine learning tools. In particular, we need to convert the data from a long format to a wide format (see @sec-tidy-pivots), where every row is a feature vector. The {vroom} package is used to efficiently read in a large amount of similar CSV files into a large dataframe using a single list of files (alternatively you can loop over and append files using base R).
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # list all MCD43A4 files, note that
@@ -410,7 +431,16 @@ ml_df <- left_join(nbar_wide, sites) |>
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
+# and deposited on Zenodo.
+
+# see further below how to directly load train and 
+# test data (containing predictors and land-cover labels) 
+# from Zenodo. (Since this data is already prepared 
+# it is much quicker than the download with AppEEARS.)
 ```
 :::
 
@@ -418,7 +448,7 @@ ml_df <- left_join(nbar_wide, sites) |>
 
 This example will try to follow the original MODIS MCD12Q1 workflow closely which calls for a boosted regression classification approach [@Friedl2010]. This method allows for the use of a [combination of weak learners](https://en.wikipedia.org/wiki/Boosting_(machine_learning)) to be combined into a single robust ensemble classification models. The in depth discussion of the algorithm is beyond the scope of this course and I refer to specialized literature for more details. To properly evaluate or model we need to split our data in a true training dataset, and a test dataset. The test dataset will be used in the final model evaluation, where samples are independent of those contained within the training dataset [@boehmke_hands-machine_2020].
 
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r eval = FALSE}
 # select packages
@@ -440,7 +470,14 @@ test <- rsample::testing(ml_df_split)
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# see further below how to directly load train and test data from Zenodo
+# train and test data for the competition was
+# downloaded with `data-raw/download_competition_data.R`
+# and prepared with `data-raw/compile_training_data.R`
+# (see https://github.com/geco-bern/handfull_of_pixels/)
+# and deposited on Zenodo.
+
+
+# see here how to directly load train and test data from Zenodo
 download.file(
   url = "https://zenodo.org/records/8298491/files/test_data.rds?download=1",     
   destfile = file.path(tempdir(), "test_data.rds"))
@@ -448,16 +485,22 @@ download.file(
   url = "https://zenodo.org/records/8298491/files/training_data.rds?download=1", 
   destfile = file.path(tempdir(), "training_data.rds"))
 
-test_data_Zenodo     <- readr::read_rds(file.path(tempdir(), "test_data.rds"))
-training_data_Zenodo <- readr::read_rds(file.path(tempdir(), "training_data.rds"))
+test_data_Zenodo     <- readr::read_rds(
+  file.path(tempdir(), "test_data.rds"))
+training_data_Zenodo <- readr::read_rds(
+  file.path(tempdir(), "training_data.rds"))
 
-# ensure training and test data set contain same predictor variables
-setdiff(names(training_data_Zenodo), names(test_data_Zenodo)) # pixelID, LC1, lat, lon
-setdiff(names(test_data_Zenodo),     names(training_data_Zenodo))
+# ensure training and test data contain same predictor/feature variables
+setdiff(names(training_data_Zenodo), 
+        names(test_data_Zenodo)) # pixelID, LC1, lat, lon
+setdiff(names(test_data_Zenodo),     
+        names(training_data_Zenodo))
 
-train <- training_data_Zenodo |> select(-c(pixelID, lat, lon)) # remove ID, lat, lon
+train <- training_data_Zenodo |> 
+  select(-c(pixelID, lat, lon)) # remove ID, lat, lon
 test  <- test_data_Zenodo                                           
-# NOTE: for the competition column 'LC1' was removed from the test data
+# NOTE: for the competition, column 'LC1' was removed from the 
+#       test data
 ```
 :::
 
@@ -584,15 +627,15 @@ xgb_best_model <- fit(xgb_best_hp, train)
 ```
 
 
-### Model evaluation
+### Model evaluation on test data
 
 In machine learning model evaluation can be achieved in various ways and the standard exploration of the accuracy and variables of importance (and their relative contributions) to the model strength are beyond the scope of this example. I will only focus on the standard methodology and terminology as used in remote sensing and GIS fields.
 
 #### Confusion matrix and metrics {.unnumbered}
 
-In the case of Land-Use and Land-Cover mapping classifications results are often reported as an confusion matrix and their associated metrics. The confusion matrix tells us something about accuracy (as perceived by users or producers), while the overall accuracy and Kappa coefficient allows us the compare the accuracy across modelled (map) results. 
+In the case of Land-Use and Land-Cover mapping classifications results are often reported as an confusion matrix and their associated metrics. The confusion matrix tells us something about accuracy (as perceived by users or producers), while the overall accuracy and Kappa coefficient allow us to compare the accuracy across modelled (map) results. 
 
-In (@tbl-confusion-matrix) a three class confusion matrix is shown with the model prediction in rows and the reference (real) classes in columns. In addition, the user and producer accuracies are shown. The user accuracy is the fraction of correctly predicted classes with respect to the false positives (Type I) errors for a given class. For example, among the reference sites that were predicted as class one (1) some were actually class two or three (2,3). The model committed the wrong label (1) to these sites. These false positives are therefore also called commission errors. Imagine a user of a prediction map is interested in a specific pixel that was predicted as class one (1), the user accuracy thus estimates how accurate this attribution to class one is. Similarly, imagine a producer (you) of a prediction map. Unlike the user, you do have access to the reference data and wonder for all your reference points of e.g. class one (1), how many got predicted correctly. The producer accuracy is the fraction of correctly predicted classes with respect to the false negative (Type II) errors for a given reference class. For example, for all sites identified as class 1 in the reference data, some were predicted as class 2 and 3 by the model. These sites were omitted from the correct class and are thus also called omission errors. In short, in remote sensing, the Type I and II errors are rephrased as the perspective taken during the assessment, either the user or the producer. In a strict machine learning context the user and producer accuracy would be called precision and recall, respectively. I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an in depth discussion on machine learning model evaluation.
+In @tbl-confusion-matrix a three class confusion matrix is shown with the model prediction in rows and the reference (real) classes in columns. In addition, the user and producer accuracies are shown. The user accuracy is the fraction of correctly predicted classes with respect to the false positives (Type I) errors for a given prediction class. The producer accuracy is the fraction of correctly predicted classes with respect to the false negatives (Type II) errors for a given reference class. 
 
 |   | Ref. 1  |  Ref. 2 | Ref. 3  | total | User accuracy (Type I) | Kappa  |
 |---|---|---|---|---|---|---|
@@ -605,7 +648,19 @@ In (@tbl-confusion-matrix) a three class confusion matrix is shown with the mode
 
 : Confusion matrix with classification results from top to bottom, reference results from left to right. Results show the labels (1-3) and their respective false positive and negative results. {#tbl-confusion-matrix}
 
-Simple confusion matrices can be calculated using R using the `table` function comparing the true reference labels with the predicted values for our model.
+::: callout-note
+### Note
+In other words:
+
+User accuracy: For example, among the sites that were predicted as class one (1) (first row) some were actually class two or three (2,3). The model committed the wrong label (1) to these sites. These false positives are therefore also called commission errors. Imagine a user of a prediction map is interested in a specific pixel that was predicted as class one (1), the user accuracy thus estimates how accurate this attribution to class one is. 
+
+Producer accuracy: Similarly, imagine a producer of a prediction map. Unlike the user, the producer has access to the reference data and wonders e.g. for all reference points of class one (1) (first column), how many got predicted correctly. For example, for all sites identified as class 1 in the reference data, some were predicted as class 2 and 3 by the model. These sites were omitted from the correct class and are thus also called omission errors. 
+
+In short, in remote sensing, the Type I and II errors are rephrased as the perspective taken during the assessment, either the user or the producer. In a strict machine learning context the user and producer accuracy would be called precision and recall, respectively. I refer to @boehmke_hands-machine_2020, @kuhn_tidy_2022 and the [AGDS book](https://geco-bern.github.io/agds_book/) for an in depth discussion on machine learning model evaluation. Also these online answers ([[1]](https://stats.stackexchange.com/a/82187), [[2]](https://stats.stackexchange.com/a/124019)) additionally explain the kappa statistic.
+:::
+
+
+Simple confusion matrices can be calculated using R using the `table()` function comparing the true reference labels with the predicted values for our model. Using the function `caret::confusionMatrix()` gives directly additional overall- and by-class- statistics as shown below:
 
 ```{r include = FALSE}
 # saveRDS(bundle::bundle(xgb_best_model), here::here("../data/xgboost_model_bundled.rds"), compress = "xz")
@@ -636,7 +691,7 @@ if(ON_GIT) {
 }
 
 ```
-::: {.panel-tabset group="book-exercise"}
+::: {.panel-tabset}
 ## For Book
 ```{r}
 #| warning: false
@@ -657,31 +712,37 @@ caret::confusionMatrix(
 ```
 ## For Exercises
 ```{r eval = FALSE}
-# NOTE: for the competition column 'LC1' was removed from the test data
-#       so you can't compute the scores yourself.
+# NOTE: for the competition column 'LC1' was removed from 
+#       the test data. Thus you can't compute the scores 
+#       yourself.
 #       
-#       Instead upload your predictions with you best model as a pull request to
+#       Instead upload your predictions from your best 
+#       model as a pull request to
 #       https://github.com/geco-bern/agds2_course.
 #       
 #       To do so: 
 #       a) save your results as .*csv: 
            readr::write_csv(
-              x    = dplyr::rename(test_results, lulc_class = .pred_class),
+              x    = dplyr::rename(test_results, 
+                                   lulc_class = .pred_class),
               file = "~/Desktop/username_results.csv")
 #       a) fork the repository 'agds2_course', 
-#       b) add and commit your results as 'data/leaderboard/fall_2025/username_results.csv', 
-#       c) and open a pull request (PR) from your forked repository to the main 
-#          repository at 'geco-bern/agds2_course'.
+#       b) add and commit your results as 
+#          'data/leaderboard/fall_2025/username_results.csv', 
+#       c) and open a pull request (PR) from your forked 
+#          repository to the main repository at 
+#          'geco-bern/agds2_course'.
 #       
-#       Your predictions will then be added to the the leader board on the course 
-#       website at https://geco-bern.github.io/agds2_course/leaderboard_fall_2025.html
+#       Your predictions will then be added to the the leader 
+#       board on the course website at 
+#       https://geco-bern.github.io/agds2_course/leaderboard_fall_2025.html
 ```
 :::
 
 
-### Model scaling
+### Model scaling to raster data
 
-To scale our new model to other locations, or regions we need to download additional data. I will demonstrate how to download geospatial data, rather than point data used during training, using the same {appeears} R package. This data will then be used to run our previously optimized model, and the results will be presented as a map. Since our workflow followed the original MODIS MCD12Q1 LULC map protocol I will compare both maps (this requires remapping some of the values from MODIS IGBP Land-Use and Land-Cover classes).
+To scale our new model to other locations, or regions we will below download additional data covering the region around Bern. The code below demonstrates how to download geospatial raster data with the {appeears} R package, rather than point data used during training. This data will then be used to run our previously trained model, and the results will be presented as a map. Since our workflow closely followed the first steps of the MODIS MCD12Q1 LULC map protocol we will compare our map to the final MODIS MCD12Q1 product. (Since we did not use exactly the same MODIS IGBP Land-Use and Land-Cover classes we need to perform some remapping before plotting.)
 
 #### Data download {.unnumbered}
 
@@ -728,7 +789,7 @@ rs_request(
 AppEEARS downloads might take a while! In the code above the default directory is also set to the temporary directory. To use the above code make sure to change the download path to a more permanent one.
 :::
 
-#### Model execution {.unnumbered}
+#### Model prediction {.unnumbered}
 
 The downloaded data (by default in `tempdir()`) are a collection of geotiff files of NBAR reflectance bands and their matching quality control data. In this demonstration I will not process the more nuanced quality control flags. Therefore, I only list the reflectance files, and read in this list of geotiffs into a stack by calling `rast()`.
 
@@ -869,8 +930,8 @@ palcol <- colorFactor(
 
 # build the leaflet map
 leaflet() |> 
-  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addProviderTiles(providers$Esri.WorldTopoMap, group = "World Topo") |>
+  addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") |>
   addRasterImage(
     lulc_map,
     colors = palcol,
@@ -886,7 +947,7 @@ leaflet() |>
     group = "MODIS MCD12Q1"
   ) |>
   addLayersControl(
-    baseGroups = c("World Imagery","World Topo"),
+    baseGroups = c("World Topo", "World Imagery"),
     position = "topleft",
     options = layersControlOptions(collapsed = FALSE),
     overlayGroups = c("XGBOOST", "MODIS MCD12Q1")
